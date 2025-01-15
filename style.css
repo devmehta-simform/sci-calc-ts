@@ -1,0 +1,16 @@
+.grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(5, 1fr);
+  width: 40vw;
+}
+button {
+  border: none;
+  padding: 6px;
+}
+button:hover {
+  cursor: pointer;
+}
+#eq {
+  background-color: skyblue;
+}
