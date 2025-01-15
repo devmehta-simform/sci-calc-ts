@@ -1,6 +1,7 @@
 // const allbtns = document.querySelectorAll("button");
 // const funbtns = document.querySelectorAll(".fun");
 const dibtns = document.querySelectorAll(".di"); // which can be directly written to input field no need to process
+const ndibtns = document.querySelectorAll(".ndi"); // which can't be directly written to input field no need to process
 const input = document.querySelector("#input");
 const oneargfunbtns = document.querySelectorAll(".one"); // funs that require just one arg
 const clrbtn = document.querySelector("#c");
@@ -19,6 +20,59 @@ dibtns.forEach((dibtn) => {
     cursorPos++;
   });
 });
+
+ndibtns.forEach((ndibtn) => {
+  ndibtn.addEventListener("click", (e) => {
+    /*
+button#xpow2. =
+button#reciprocal. =
+button#abs. =
+button#exp.=
+button#mod.=
+button#sqrt.=
+button#fact.=
+button#xpowy.=
+button#10powx.
+button#log.
+button#ln. */
+    switch (e.currentTarget.id) {
+      case "abs":
+        input.value = "abs(" + input.value + ")";
+        break;
+      case "xpow2":
+        input.value = "(" + input.value + ")^2";
+        break;
+      case "reciprocal":
+        input.value = "1/(" + input.value + ")";
+        break;
+      case "exp":
+        input.value = "e^(" + input.value + ")";
+        break;
+      case "mod":
+        input.value = "(" + input.value + ")mod()";
+        break;
+      case "sqrt":
+        input.value = "sqrt(" + input.value + ")";
+        break;
+      case "fact":
+        input.value = "(" + input.value + ")!";
+        break;
+      case "xpowy":
+        input.value = "(" + input.value + ")^()";
+        break;
+      case "10powx":
+        input.value = "10^(" + input.value + ")";
+        break;
+      case "log":
+        input.value = "log(" + input.value + ")";
+        break;
+      case "ln":
+        input.value = "ln(" + input.value + ")";
+        break;
+    }
+  });
+});
+
 backspacebtn.addEventListener("click", (e) => {
   if (cursorPos > 0) {
     input.value =
@@ -26,6 +80,7 @@ backspacebtn.addEventListener("click", (e) => {
     cursorPos--;
   }
 });
+
 /* oneargfunbtns.forEach((oneargfunbtn) => {
   oneargfunbtn.addEventListener("click", (e) => {
     const arg = parseFloat(input.value);

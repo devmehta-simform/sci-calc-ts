@@ -22,7 +22,7 @@ button:hover {
 #input {
   padding: 10px;
   border: none;
-
+  overflow-x: auto;
   background-color: aliceblue;
 }
 #input:focus {
