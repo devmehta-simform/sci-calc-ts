@@ -9,6 +9,9 @@
 .span-5 {
   grid-column: span 5;
 }
+.span-2 {
+  grid-column: span 2;
+}
 button {
   border: none;
   padding: 6px;
@@ -31,4 +34,12 @@ button:hover {
 }
 .digit {
   background-color: white;
+}
+select {
+  padding: 7px;
+  border: none;
+  cursor: pointer;
+}
+select:focus {
+  outline: none;
 }
