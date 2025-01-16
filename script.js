@@ -1,3 +1,18 @@
+const funs = [
+  "xpow2",
+  "reciprocal",
+  "abs",
+  "exp",
+  "mod",
+  "sqrt",
+  "fact",
+  "xpowy",
+  "10powx",
+  "log",
+  "ln",
+];
+const ops = ["+", "-", "*", "/", "^"];
+
 // const allbtns = document.querySelectorAll("button");
 // const funbtns = document.querySelectorAll(".fun");
 const dibtns = document.querySelectorAll(".di"); // which can be directly written to input field no need to process
@@ -8,6 +23,7 @@ const clrbtn = document.querySelector("#c");
 const eqbtn = document.querySelector("#eq");
 const backspacebtn = document.querySelector("#backspace");
 let cursorPos = 0;
+
 input.addEventListener("click", (e) => {
   cursorPos = input.selectionStart;
 });
@@ -124,23 +140,24 @@ eqbtn.addEventListener("click", (e) => {
   //   "eq",
 
   // );
-  const infCharArray = input.value
-    .toString()
-    .split(/\s*([\(\)+\-*/^])\s*/)
-    .filter((c) => c != "");
-  console.log(infCharArray);
+  try {
+    const infCharArray = input.value
+      .toString()
+      .split(/\s*([\(\)+\-*/^])\s*/)
+      .filter((c) => c != "");
 
-  const postCharArray = infToPost(infCharArray);
-  console.log(postCharArray);
-  /* function isValid(str) {
-    const stack = [];
-    for (const c of str) {
-      if (c == "(") stack.push();
-      else if(c==')') {
-        while()
-      }
-    }
-  } */
+    // console.log(infCharArray);
+
+    const postCharArray = infToPost(infCharArray);
+
+    console.log(postCharArray);
+
+    input.value = evaluatePost(postCharArray);
+    input.selectionStart = 0;
+  } catch (error) {
+    console.trace(error);
+  }
+
   function getPrec(ch) {
     switch (ch) {
       case "+":
@@ -155,13 +172,10 @@ eqbtn.addEventListener("click", (e) => {
         return -1;
     }
   }
+
   function infToPost(str) {
     const stack = [];
     const ans = [];
-    /* if (!isValid(str)) {
-      alert("error invalid input");
-      return [];
-    } */
     for (const c of str) {
       if (!Number.isNaN(parseFloat(c))) {
         ans.push(c);
@@ -175,7 +189,7 @@ eqbtn.addEventListener("click", (e) => {
         }
         if (stack.length == 0) {
           alert("error invalid input");
-          break;
+          throw new Error("invalid input");
         } else stack.pop();
         continue;
       } else {
@@ -192,10 +206,48 @@ eqbtn.addEventListener("click", (e) => {
       const t = stack.pop();
       if (t == "(") {
         alert("error invalid input");
-        break;
+        throw new Error("invalid input");
       }
       ans.push(t);
     }
     return ans;
+  }
+
+  function evaluatePost(str) {
+    const stack = [];
+    for (const c of str) {
+      const t = parseFloat(c);
+      if (!Number.isNaN(t)) stack.push(t);
+      else if (ops.includes(c)) {
+        if (stack.length == 0) {
+          throw new Error("invalid input");
+        }
+        const op2 = stack.pop();
+        if (stack.length == 0) {
+          throw new Error("invalid input");
+        }
+        const op1 = stack.pop();
+        let tmpans = 0;
+        switch (c) {
+          case "+":
+            tmpans = op1 + op2;
+            break;
+          case "-":
+            tmpans = op1 - op2;
+            break;
+          case "*":
+            tmpans = op1 * op2;
+            break;
+          case "/":
+            tmpans = op1 / op2;
+            break;
+          case "^":
+            tmpans = Math.pow(op1, op2);
+            break;
+        }
+        stack.push(tmpans);
+      }
+    }
+    return stack.pop();
   }
 });
