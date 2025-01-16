@@ -132,7 +132,15 @@ eqbtn.addEventListener("click", (e) => {
 
   const postCharArray = infToPost(infCharArray);
   console.log(postCharArray);
-
+  /* function isValid(str) {
+    const stack = [];
+    for (const c of str) {
+      if (c == "(") stack.push();
+      else if(c==')') {
+        while()
+      }
+    }
+  } */
   function getPrec(ch) {
     switch (ch) {
       case "+":
@@ -150,6 +158,10 @@ eqbtn.addEventListener("click", (e) => {
   function infToPost(str) {
     const stack = [];
     const ans = [];
+    /* if (!isValid(str)) {
+      alert("error invalid input");
+      return [];
+    } */
     for (const c of str) {
       if (!Number.isNaN(parseFloat(c))) {
         ans.push(c);
@@ -176,7 +188,14 @@ eqbtn.addEventListener("click", (e) => {
         stack.push(c);
       }
     }
-    while (stack.length != 0) ans.push(stack.pop());
+    while (stack.length != 0) {
+      const t = stack.pop();
+      if (t == "(") {
+        alert("error invalid input");
+        break;
+      }
+      ans.push(t);
+    }
     return ans;
   }
 });
