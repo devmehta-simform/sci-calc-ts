@@ -1,3 +1,5 @@
+import BasicCalcUtil from "./BasicCalcUtil.mjs";
+
 const funs = [
   "xpow2",
   "reciprocal",
@@ -134,6 +136,7 @@ backspacebtn.addEventListener("click", (e) => {
 }); */
 clrbtn.addEventListener("click", (e) => {
   input.value = "";
+  window.location.reload();
 });
 eqbtn.addEventListener("click", (e) => {
   // console.log(
@@ -145,8 +148,7 @@ eqbtn.addEventListener("click", (e) => {
       .toString()
       .split(/\s*([\(\)+\-*/^])\s*/)
       .filter((c) => c != "");
-
-    // console.log(infCharArray);
+    console.log(infCharArray);
 
     const postCharArray = infToPost(infCharArray);
 
@@ -227,25 +229,8 @@ eqbtn.addEventListener("click", (e) => {
           throw new Error("invalid input");
         }
         const op1 = stack.pop();
-        let tmpans = 0;
-        switch (c) {
-          case "+":
-            tmpans = op1 + op2;
-            break;
-          case "-":
-            tmpans = op1 - op2;
-            break;
-          case "*":
-            tmpans = op1 * op2;
-            break;
-          case "/":
-            tmpans = op1 / op2;
-            break;
-          case "^":
-            tmpans = Math.pow(op1, op2);
-            break;
-        }
-        stack.push(tmpans);
+
+        stack.push(BasicCalcUtil.calc(op1, op2, c));
       }
     }
     return stack.pop();
