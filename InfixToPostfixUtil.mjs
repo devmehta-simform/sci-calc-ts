@@ -1,6 +1,6 @@
-import BasicCalcUtil from "./BasicCalcUtil.mjs";
-const funs = BasicCalcUtil.funs;
-const ops = BasicCalcUtil.ops;
+import CalcUtil from "./CalcUtil.mjs";
+const funs = CalcUtil.funs;
+const ops = CalcUtil.ops;
 export default class InfixToPostfixUtil {
   static #getPrec(ch) {
     switch (ch) {
@@ -56,7 +56,8 @@ export default class InfixToPostfixUtil {
           throw new Error("invalid input");
         } else stack.pop();
         continue;
-      } else {
+      } else if (funs.includes(c)) stack.push(c);
+      else {
         while (
           stack.length != 0 &&
           this.#getPrec(stack.at(stack.length - 1)) >= this.#getPrec(c)

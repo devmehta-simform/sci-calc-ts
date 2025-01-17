@@ -1,8 +1,8 @@
-import BasicCalcUtil from "./BasicCalcUtil.mjs";
+import CalcUtil from "./CalcUtil.mjs";
 import InfixToPostfixUtil from "./InfixToPostfixUtil.mjs";
 
-const ops = BasicCalcUtil.ops;
-const funs = BasicCalcUtil.funs;
+const ops = CalcUtil.ops;
+const funs = CalcUtil.funs;
 // const allbtns = document.querySelectorAll("button");
 // const funbtns = document.querySelectorAll(".fun");
 const dibtns = document.querySelectorAll(".di"); // which can be directly written to input field no need to process
@@ -134,7 +134,13 @@ eqbtn.addEventListener("click", (e) => {
         }
         const op1 = stack.pop();
 
-        stack.push(BasicCalcUtil.calc(op1, op2, c));
+        stack.push(CalcUtil.calc(op1, op2, c));
+      } else if (funs.includes(c)) {
+        if (stack.length == 0) {
+          throw new Error("invalid input");
+        }
+        const op1 = stack.pop();
+        stack.push(CalcUtil.fcalc(op1, c));
       }
     }
     const res = stack.pop();
@@ -143,6 +149,7 @@ eqbtn.addEventListener("click", (e) => {
     localStorage.setItem("n", n + 1);
     localStorage.setItem(`${n + 1} cal`, `${input.value}=${res}`);
     addToHistory(`${input.value}=${res}`);
+    // input.selectionStart = 0;
     return res;
   }
 });
@@ -208,40 +215,60 @@ button#ln. */
         input.value = input.value + "rand";
         break;
     }
+    cursorPos += e.length + 1;
   } else {
     switch (e.currentTarget.id) {
       case "abs":
         input.value = "abs(" + input.value + ")";
+        // cursorPos += 4;
+
         break;
       case "xpow2":
         input.value = "(" + input.value + ")^2";
+        // cursorPos += 1;
+
         break;
       case "reciprocal":
         input.value = "1/(" + input.value + ")";
+        // cursorPos += 3;
+
         break;
       case "exp":
         input.value = "℮^(" + input.value + ")";
+        // cursorPos += 3;
+
         break;
       case "mod":
         input.value = "(" + input.value + ")mod()";
+        // cursorPos += input.value.toString().length + 2 + 4;
+
         break;
       case "sqrt":
         input.value = "sqrt(" + input.value + ")";
+        // cursorPos += 6;
+
         break;
       case "fact":
         input.value = "(" + input.value + ")!";
+        // cursorPos += 1;
+
         break;
       case "xpowy":
         input.value = "(" + input.value + ")^()";
+        // cursorPos += input.value.toString().length + 2 + 2;
+
         break;
       case "10powx":
         input.value = "10^(" + input.value + ")";
+        // cursorPos += 5;
         break;
       case "log":
         input.value = "log(" + input.value + ")";
+        // cursorPos += 4;
         break;
       case "ln":
         input.value = "ln(" + input.value + ")";
+        // cursorPos += 3;
         break;
     }
   }
