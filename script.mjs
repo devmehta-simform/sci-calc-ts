@@ -80,6 +80,7 @@ backspacebtn.addEventListener("click", (e) => {
 }); */
 clrbtn.addEventListener("click", (e) => {
   input.value = "";
+  localStorage.clear();
   window.location.reload();
 });
 eqbtn.addEventListener("click", (e) => {
