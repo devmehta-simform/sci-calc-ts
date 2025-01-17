@@ -14,6 +14,9 @@ export default class BasicCalcUtil {
   static #pow(op1, op2) {
     return op1 ** op2;
   }
+  static #mod(op1, op2) {
+    return op1 % op2;
+  }
   static calc(op1, op2, op) {
     let tmpans = 0;
     switch (op) {
@@ -32,26 +35,43 @@ export default class BasicCalcUtil {
       case "^":
         tmpans = this.#pow(op1, op2);
         break;
+      case "%":
+        tmpans = this.#mod(op1, op2);
+        break;
     }
 
     return tmpans;
   }
   static get funs() {
     return [
-      "xpow2",
-      "reciprocal",
+      // "xpow2",
+      // "reciprocal",
       "abs",
-      "exp",
+      // "exp",
       "mod",
       "sqrt",
-      "fact",
-      "xpowy",
-      "10powx",
+      // "fact",
+      // "xpowy",
+      // "10powx",
       "log",
       "ln",
-    ];
+      "sin",
+      "cos",
+      "tan",
+      "cot",
+      "sec",
+      "cosec",
+      "asin",
+      "acos",
+      "atan",
+      "acot",
+      "asec",
+      "acosec",
+      "ceil",
+      "floor",
+    ].sort((a, b) => b.length - a.length);
   }
   static get ops() {
-    return ["+", "-", "*", "/", "^"];
+    return ["+", "-", "*", "/", "^", "%"];
   }
 }

@@ -9,7 +9,7 @@ const dibtns = document.querySelectorAll(".di"); // which can be directly writte
 const ndibtns = document.querySelectorAll(".ndi"); // which can't be directly written to input field no need to process
 const ndiDropdowns = document.querySelectorAll("select");
 const input = document.querySelector("#input");
-const oneargfunbtns = document.querySelectorAll(".one"); // funs that require just one arg
+// const oneargfunbtns = document.querySelectorAll(".one"); // funs that require just one arg
 const clrbtn = document.querySelector("#c");
 const eqbtn = document.querySelector("#eq");
 const backspacebtn = document.querySelector("#backspace");
@@ -87,20 +87,31 @@ eqbtn.addEventListener("click", (e) => {
   //   "eq",
 
   // );
+
   try {
     if (input.value.toString() == "") {
       throw new Error("empty input");
     }
+    /*  let tmpstr = input.value.toString();
+    for (let i = 0; i < funs.length; i++) {
+      tmpstr = tmpstr.replaceAll(funs[i], `#{${i + 1}}`);
+    } */
+    // console.log(tmpstr);
+    // tmpstr.
+
     const infCharArray = input.value
       .toString()
       .replaceAll("π", Math.PI)
+      .replaceAll("rand", () => Math.random() * 100.0) // passing a function so every rand is replaced by randomly generated number
+      .replaceAll("mod", "%")
+      .replaceAll("℮", Math.E)
       .split(/\s*([\(\)+\-*/^])\s*/)
       .filter((c) => c != "");
-    // console.log(infCharArray);
+    console.log(infCharArray);
 
     const postCharArray = InfixToPostfixUtil.convertInfToPost(infCharArray);
 
-    // console.log(postCharArray);
+    console.log(postCharArray);
 
     input.value = evaluatePost(postCharArray);
     input.selectionStart = 0;
@@ -209,7 +220,7 @@ button#ln. */
         input.value = "1/(" + input.value + ")";
         break;
       case "exp":
-        input.value = "e^(" + input.value + ")";
+        input.value = "℮^(" + input.value + ")";
         break;
       case "mod":
         input.value = "(" + input.value + ")mod()";
