@@ -149,7 +149,6 @@ eqbtn.addEventListener("click", (e) => {
     localStorage.setItem("n", n + 1);
     localStorage.setItem(`${n + 1} cal`, `${input.value}=${res}`);
     addToHistory(`${input.value}=${res}`);
-    // input.selectionStart = 0;
     return res;
   }
 });
