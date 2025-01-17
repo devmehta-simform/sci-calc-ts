@@ -19,6 +19,7 @@ export default class InfixToPostfixUtil {
 
   static convertInfToPost(str) {
     let prev = null;
+    /* reference stackoverflow */
     for (let i = 0; i < str.length; i++) {
       const ch = str[i];
       if (ch == "-") {
@@ -29,7 +30,7 @@ export default class InfixToPostfixUtil {
       }
       prev = ch;
     }
-    console.log(str);
+    // console.log(str);
     str = str.filter((ch, i) => {
       if (ch == "@") {
         str[i + 1] = "-" + str[i + 1];

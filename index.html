@@ -6,40 +6,39 @@
     <title>Sci Calc</title>
     <link href="./logo.png" rel="icon" type="image/x-icon" />
     <link rel="stylesheet" href="style.css" />
-    <script type="module" src="script.mjs" defer></script>
   </head>
   <body>
+    <script type="module" src="script.mjs" defer></script>
     <div class="main-grid">
       <div class="grid">
         <input id="input" type="text" placeholder="0" class="span-5" />
-        <!-- <select
-        name="trigonometry"
-        id="trigonometry"
-        title="trigo"
-        class="span-2"
-      >
-        <option value="default" disabled selected>trigonometry</option>
-        <option value="sin">sin</option>
-        <option value="sin">sin</option>
-        <option value="cos">cos</option>
-        <option value="tan">tan</option>
-        <option value="cosec">cosec</option>
-        <option value="sec">sec</option>
-        <option value="cot">cot</option>
-        <option value="asin">asin</option>
-        <option value="acos">acos</option>
-        <option value="atan">atan</option>
-        <option value="acosec">acosec</option>
-        <option value="asec">asec</option>
-        <option value="acot">acot</option>
-      </select>
-      <select name="functions" id="functions" class="span-2">
-        <option value="default" disabled selected>functions</option>
-        <option value="rand">rand</option>
-        <option value="ceil">ceil</option>
-        <option value="floor">floor</option>
-      </select>
-      <div id="dummy"></div> -->
+        <select
+          name="trigonometry"
+          id="trigonometry"
+          title="trigo"
+          class="span-2"
+        >
+          <option value="default" disabled selected>trigonometry</option>
+          <option id="sin" value="sin" class="fun ndi">sin</option>
+          <option id="cos" value="cos" class="fun ndi">cos</option>
+          <option id="tan" value="tan" class="fun ndi">tan</option>
+          <option id="cosec" value="cosec" class="fun ndi">cosec</option>
+          <option id="sec" value="sec" class="fun ndi">sec</option>
+          <option id="cot" value="cot" class="fun ndi">cot</option>
+          <option id="asin" value="asin" class="fun ndi">asin</option>
+          <option id="acos" value="acos" class="fun ndi">acos</option>
+          <option id="atan" value="atan" class="fun ndi">atan</option>
+          <option id="acosec" value="acosec" class="fun ndi">acosec</option>
+          <option id="asec" value="asec" class="fun ndi">asec</option>
+          <option id="acot" value="acot" class="fun ndi">acot</option>
+        </select>
+        <select name="functions" id="functions" class="span-2">
+          <option value="default" disabled selected>functions</option>
+          <option id="rand" value="rand" class="fun ndi">rand</option>
+          <option id="ceil" value="ceil" class="fun ndi">ceil</option>
+          <option id="floor" value="floor" class="fun ndi">floor</option>
+        </select>
+        <div id="dummy"></div>
         <button type="button" class="fun" id="second">2<sup>nd</sup></button
         ><button type="button" class="di" id="pi">&pi;</button
         ><button type="button" class="di" id="e">e</button

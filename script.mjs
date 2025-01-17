@@ -7,6 +7,7 @@ const funs = BasicCalcUtil.funs;
 // const funbtns = document.querySelectorAll(".fun");
 const dibtns = document.querySelectorAll(".di"); // which can be directly written to input field no need to process
 const ndibtns = document.querySelectorAll(".ndi"); // which can't be directly written to input field no need to process
+const ndiDropdowns = document.querySelectorAll("select");
 const input = document.querySelector("#input");
 const oneargfunbtns = document.querySelectorAll(".one"); // funs that require just one arg
 const clrbtn = document.querySelector("#c");
@@ -26,59 +27,14 @@ dibtns.forEach((dibtn) => {
     cursorPos++;
   });
 });
+// console.log(ndibtns);
 
 ndibtns.forEach((ndibtn) => {
-  ndibtn.addEventListener("click", (e) => {
-    /*
-button#xpow2. =
-button#reciprocal. =
-button#abs. =
-button#exp.=
-button#mod.=
-button#sqrt.=
-button#fact.=
-button#xpowy.=
-button#10powx.
-button#log.
-button#ln. */
-    switch (e.currentTarget.id) {
-      case "abs":
-        input.value = "abs(" + input.value + ")";
-        break;
-      case "xpow2":
-        input.value = "(" + input.value + ")^2";
-        break;
-      case "reciprocal":
-        input.value = "1/(" + input.value + ")";
-        break;
-      case "exp":
-        input.value = "e^(" + input.value + ")";
-        break;
-      case "mod":
-        input.value = "(" + input.value + ")mod()";
-        break;
-      case "sqrt":
-        input.value = "sqrt(" + input.value + ")";
-        break;
-      case "fact":
-        input.value = "(" + input.value + ")!";
-        break;
-      case "xpowy":
-        input.value = "(" + input.value + ")^()";
-        break;
-      case "10powx":
-        input.value = "10^(" + input.value + ")";
-        break;
-      case "log":
-        input.value = "log(" + input.value + ")";
-        break;
-      case "ln":
-        input.value = "ln(" + input.value + ")";
-        break;
-    }
-  });
+  ndibtn.addEventListener("click", ndiHandler);
 });
-
+ndiDropdowns.forEach((ndiDropdown) => {
+  ndiDropdown.addEventListener("change", () => ndiHandler(ndiDropdown.value));
+});
 backspacebtn.addEventListener("click", (e) => {
   if (cursorPos > 0) {
     input.value =
@@ -137,13 +93,14 @@ eqbtn.addEventListener("click", (e) => {
     }
     const infCharArray = input.value
       .toString()
+      .replaceAll("π", Math.PI)
       .split(/\s*([\(\)+\-*/^])\s*/)
       .filter((c) => c != "");
-    console.log(infCharArray);
+    // console.log(infCharArray);
 
     const postCharArray = InfixToPostfixUtil.convertInfToPost(infCharArray);
 
-    console.log(postCharArray);
+    // console.log(postCharArray);
 
     input.value = evaluatePost(postCharArray);
     input.selectionStart = 0;
@@ -178,6 +135,107 @@ eqbtn.addEventListener("click", (e) => {
     return res;
   }
 });
+
+function ndiHandler(e) {
+  /*
+button#xpow2. =
+button#reciprocal. =
+button#abs. =
+button#exp.=
+button#mod.=
+button#sqrt.=
+button#fact.=
+button#xpowy.=
+button#10powx.
+button#log.
+button#ln. */
+  if (typeof e == typeof "") {
+    switch (e) {
+      case "sin":
+        input.value = "sin(" + input.value + ")";
+        break;
+      case "cos":
+        input.value = "cos(" + input.value + ")";
+        break;
+      case "tan":
+        input.value = "tan(" + input.value + ")";
+        break;
+      case "cosec":
+        input.value = "cosec(" + input.value + ")";
+        break;
+      case "sec":
+        input.value = "sec(" + input.value + ")";
+        break;
+      case "cot":
+        input.value = "cot(" + input.value + ")";
+        break;
+      case "asin":
+        input.value = "asin(" + input.value + ")";
+        break;
+      case "acos":
+        input.value = "acos(" + input.value + ")";
+        break;
+      case "atan":
+        input.value = "atan(" + input.value + ")";
+        break;
+      case "acosec":
+        input.value = "acosec(" + input.value + ")";
+        break;
+      case "asec":
+        input.value = "asec(" + input.value + ")";
+        break;
+      case "acot":
+        input.value = "acot(" + input.value + ")";
+        break;
+      case "ceil":
+        input.value = "ceil(" + input.value + ")";
+        break;
+      case "floor":
+        input.value = "floor(" + input.value + ")";
+        break;
+      case "rand":
+        input.value = input.value + "rand";
+        break;
+    }
+  } else {
+    switch (e.currentTarget.id) {
+      case "abs":
+        input.value = "abs(" + input.value + ")";
+        break;
+      case "xpow2":
+        input.value = "(" + input.value + ")^2";
+        break;
+      case "reciprocal":
+        input.value = "1/(" + input.value + ")";
+        break;
+      case "exp":
+        input.value = "e^(" + input.value + ")";
+        break;
+      case "mod":
+        input.value = "(" + input.value + ")mod()";
+        break;
+      case "sqrt":
+        input.value = "sqrt(" + input.value + ")";
+        break;
+      case "fact":
+        input.value = "(" + input.value + ")!";
+        break;
+      case "xpowy":
+        input.value = "(" + input.value + ")^()";
+        break;
+      case "10powx":
+        input.value = "10^(" + input.value + ")";
+        break;
+      case "log":
+        input.value = "log(" + input.value + ")";
+        break;
+      case "ln":
+        input.value = "ln(" + input.value + ")";
+        break;
+    }
+  }
+}
+
 const history = document.getElementById("history");
 function addToHistory(cal) {
   const newele = document.createElement("li");
