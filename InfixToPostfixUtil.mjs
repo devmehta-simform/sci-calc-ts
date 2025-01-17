@@ -18,13 +18,25 @@ export default class InfixToPostfixUtil {
   }
 
   static convertInfToPost(str) {
-    // let prev=null
-    // for (let i=0;i<str.length;i++) {
-    //   if(ch=='-'){
-    //     if(prev==null || prev=='(' || ){}
-    //   }
-    //   prev=ch
-    // }
+    let prev = null;
+    for (let i = 0; i < str.length; i++) {
+      const ch = str[i];
+      if (ch == "-") {
+        if (prev == null || prev == "(" || ops.includes(prev)) {
+          // @ means that "-" is a unary operator and signifies the sign of the operand
+          str[i] = "@";
+        }
+      }
+      prev = ch;
+    }
+    console.log(str);
+    str = str.filter((ch, i) => {
+      if (ch == "@") {
+        str[i + 1] = "-" + str[i + 1];
+        return false;
+      } else return true;
+    });
+
     const stack = [];
     const ans = [];
     for (const c of str) {

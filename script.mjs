@@ -132,6 +132,9 @@ eqbtn.addEventListener("click", (e) => {
 
   // );
   try {
+    if (input.value.toString() == "") {
+      throw new Error("empty input");
+    }
     const infCharArray = input.value
       .toString()
       .split(/\s*([\(\)+\-*/^])\s*/)
