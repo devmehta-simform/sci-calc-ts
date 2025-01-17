@@ -1,3 +1,10 @@
+.main-grid {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  width: 80vw;
+  gap: 3rem;
+  grid-template-rows: 50vh;
+}
 .grid {
   display: grid;
   gap: 0.75rem;
@@ -6,6 +13,27 @@
   background-color: whitesmoke;
   padding: 0.5rem;
 }
+.grid-history {
+  background-color: #d4e0ee;
+  overflow: scroll;
+  font-size: large;
+  padding: 0.5rem;
+}
+ul {
+  /* background-color: #fff2f1; */
+  line-height: 0.75rem;
+  list-style-type: none;
+}
+li {
+  padding: 0.5rem;
+}
+li:hover {
+  background-color: #fff2f1;
+  cursor: pointer;
+}
+/* ul li {
+  background-color: bisque;
+} */
 .span-5 {
   grid-column: span 5;
 }

@@ -1,3 +1,6 @@
+import BasicCalcUtil from "./BasicCalcUtil.mjs";
+const funs = BasicCalcUtil.funs;
+const ops = BasicCalcUtil.ops;
 export default class InfixToPostfixUtil {
   static #getPrec(ch) {
     switch (ch) {
@@ -15,6 +18,13 @@ export default class InfixToPostfixUtil {
   }
 
   static convertInfToPost(str) {
+    // let prev=null
+    // for (let i=0;i<str.length;i++) {
+    //   if(ch=='-'){
+    //     if(prev==null || prev=='(' || ){}
+    //   }
+    //   prev=ch
+    // }
     const stack = [];
     const ans = [];
     for (const c of str) {

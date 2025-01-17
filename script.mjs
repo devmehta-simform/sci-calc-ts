@@ -1,20 +1,8 @@
 import BasicCalcUtil from "./BasicCalcUtil.mjs";
 import InfixToPostfixUtil from "./InfixToPostfixUtil.mjs";
-const funs = [
-  "xpow2",
-  "reciprocal",
-  "abs",
-  "exp",
-  "mod",
-  "sqrt",
-  "fact",
-  "xpowy",
-  "10powx",
-  "log",
-  "ln",
-];
-const ops = ["+", "-", "*", "/", "^"];
 
+const ops = BasicCalcUtil.ops;
+const funs = BasicCalcUtil.funs;
 // const allbtns = document.querySelectorAll("button");
 // const funbtns = document.querySelectorAll(".fun");
 const dibtns = document.querySelectorAll(".di"); // which can be directly written to input field no need to process
@@ -178,6 +166,18 @@ eqbtn.addEventListener("click", (e) => {
         stack.push(BasicCalcUtil.calc(op1, op2, c));
       }
     }
-    return stack.pop();
+    const res = stack.pop();
+    // maintaining history
+    const n = parseInt(localStorage.getItem("n")) || 0;
+    localStorage.setItem("n", n + 1);
+    localStorage.setItem(`${n + 1} cal`, `${input.value}=${res}`);
+    addToHistory(`${input.value}=${res}`);
+    return res;
   }
 });
+const history = document.getElementById("history");
+function addToHistory(cal) {
+  const newele = document.createElement("li");
+  newele.textContent = `${cal}`;
+  history.insertBefore(newele, history.firstChild);
+}

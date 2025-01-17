@@ -33,6 +33,25 @@ export default class BasicCalcUtil {
         tmpans = this.#pow(op1, op2);
         break;
     }
+
     return tmpans;
+  }
+  static get funs() {
+    return [
+      "xpow2",
+      "reciprocal",
+      "abs",
+      "exp",
+      "mod",
+      "sqrt",
+      "fact",
+      "xpowy",
+      "10powx",
+      "log",
+      "ln",
+    ];
+  }
+  static get ops() {
+    return ["+", "-", "*", "/", "^"];
   }
 }
