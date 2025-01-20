@@ -12,6 +12,7 @@ const eqbtn = document.querySelector("#eq");
 const backspacebtn = document.querySelector("#backspace");
 const degradbtn = document.querySelector("#deg-rad");
 const signbtn = document.querySelector("#sign");
+const febtn = document.querySelector("#f-e");
 const secondbtn = document.querySelector("#second");
 const themebtn = document.querySelector("#theme");
 // memory buttons
@@ -76,6 +77,26 @@ secondbtn.addEventListener("click", (e) => {
       document.getElementById("xpow2").innerHTML = "x<sup>3</sup>";
       document.getElementById("xpow2").id = "xpow3";
     }
+  }
+});
+
+febtn.addEventListener("click", (e) => {
+  try {
+    const num = parseFloat(input.value.toString());
+    if (!Number.isNaN(num)) {
+      const tmp = num
+        .toExponential()
+        .toString()
+        .split(/\s*([e+])\s*/)
+        .filter((c) => c != "");
+      const ans = "(" + tmp[0] + ")*10^(" + tmp[3] + ")";
+      input.value = ans;
+      console.log();
+    } else {
+      throw new Error("invalid input");
+    }
+  } catch (error) {
+    alert(error.toString());
   }
 });
 
