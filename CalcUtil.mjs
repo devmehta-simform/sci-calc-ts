@@ -79,6 +79,14 @@ export default class CalcUtil {
     return Math.log(op1);
   }
 
+  static #fact(op1) {
+    let ans = 1;
+    for (let i = 1; i <= op1; i++) {
+      ans *= i;
+    }
+    return ans;
+  }
+
   static calc(op1, op2, op) {
     let tmpans = 0;
     switch (op) {
@@ -161,6 +169,9 @@ export default class CalcUtil {
       case "ln":
         tmpans = this.#ln(op1);
         break;
+      case "fact":
+        tmpans = this.#fact(op1);
+        break;
     }
 
     return tmpans;
@@ -192,6 +203,7 @@ export default class CalcUtil {
       "acosec",
       "ceil",
       "floor",
+      "fact",
     ].sort((a, b) => b.length - a.length);
   }
   static get ops() {

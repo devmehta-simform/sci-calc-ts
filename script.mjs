@@ -300,7 +300,7 @@ button#ln. */
 
         break;
       case "fact":
-        input.value = "(" + input.value + ")!";
+        input.value = "fact(" + input.value + ")";
         // cursorPos += 1;
 
         break;
