@@ -16,6 +16,7 @@ const backspacebtn = document.querySelector("#backspace");
 const degradbtn = document.querySelector("#deg-rad");
 const signbtn = document.querySelector("#sign");
 const secondbtn = document.querySelector("#second");
+const themebtn = document.querySelector("#theme");
 // memory buttons
 const MS = document.querySelector("#MS");
 const MC = document.querySelector("#MC");
@@ -24,6 +25,14 @@ const M_p = document.querySelector("#M_p"); // M+
 const M_m = document.querySelector("#M_m"); // M-
 
 let cursorPos = 0;
+
+themebtn.addEventListener("click", (e) => {
+  if (document.querySelector("body").classList.contains("light")) {
+    document.querySelector("body").classList.replace("light", "dark");
+  } else {
+    document.querySelector("body").classList.replace("dark", "light");
+  }
+});
 
 MS.addEventListener("click", (e) => {
   localStorage.setItem("M", input.value || 0);

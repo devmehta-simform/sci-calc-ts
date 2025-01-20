@@ -1,9 +1,50 @@
+body.light {
+  .grid {
+    background-color: whitesmoke;
+  }
+  .grid-history {
+    background-color: #d4e0ee;
+  }
+  li:hover {
+    background-color: #fff2f1;
+  }
+  .digit {
+    background-color: white;
+  }
+}
+body.dark {
+  * {
+    color: white;
+  }
+  .grid {
+    background-color: #1f1f1e;
+  }
+  button {
+    background-color: #6d6d6d;
+  }
+  select {
+    background-color: #6d6d6d;
+  }
+  .grid-history {
+    background-color: gray;
+  }
+  li:hover {
+    background-color: #ffeebc;
+    color: black;
+  }
+  .digit {
+    background-color: lightsalmon;
+  }
+  #input {
+    background-color: lightslategray;
+  }
+}
 .main-grid {
   display: grid;
   grid-template-columns: 50% 50%;
   width: 80vw;
   gap: 3rem;
-  grid-template-rows: 50vh;
+  grid-template-rows: 60vh;
 }
 .grid {
   display: grid;

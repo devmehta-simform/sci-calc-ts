@@ -7,14 +7,22 @@
     <link href="./logo.png" rel="icon" type="image/x-icon" />
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
+  <body class="light">
     <script type="module" src="script.mjs" defer></script>
     <div class="main-grid">
       <div class="grid">
         <input id="input" type="text" placeholder="0" class="span-5" />
+        <button id="theme" value="light">
+          <img
+            height="24px"
+            width="24px"
+            src="./dark-mode-svgrepo-com.svg"
+            alt=""
+          />
+        </button>
         <button type="button" id="deg-rad">DEG</button>
         <button type="button" id="f-e">F-E</button>
-        <div class="dummy span-3"></div>
+        <div class="dummy span-2"></div>
         <button id="MC">MC</button><button id="MR">MR</button
         ><button id="M_p">M+</button><button id="M_m">M-</button
         ><button id="MS">MS</button>
