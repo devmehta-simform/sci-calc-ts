@@ -3,13 +3,10 @@ import InfixToPostfixUtil from "./InfixToPostfixUtil.mjs";
 
 const ops = CalcUtil.ops;
 const funs = CalcUtil.funs;
-// const allbtns = document.querySelectorAll("button");
-// const funbtns = document.querySelectorAll(".fun");
 const dibtns = document.querySelectorAll(".di"); // which can be directly written to input field no need to process
 const ndibtns = document.querySelectorAll(".ndi"); // which can't be directly written to input field no need to process
 const ndiDropdowns = document.querySelectorAll("select");
 const input = document.querySelector("#input");
-// const oneargfunbtns = document.querySelectorAll(".one"); // funs that require just one arg
 const clrbtn = document.querySelector("#c");
 const eqbtn = document.querySelector("#eq");
 const backspacebtn = document.querySelector("#backspace");
@@ -55,8 +52,6 @@ M_m.addEventListener("click", (e) => {
   if (localStorage.getItem("M") == null) {
     alert("nothing stored in memory");
   } else {
-    // if(input.value==""){input.value=localStorage.getItem("M")}
-    // else {input.value=evaluatePost()}
     input.value = input.value + "-" + localStorage.getItem("M");
   }
 });
@@ -65,8 +60,6 @@ M_p.addEventListener("click", (e) => {
   if (localStorage.getItem("M") == null) {
     alert("nothing stored in memory");
   } else {
-    // if(input.value==""){input.value=localStorage.getItem("M")}
-    // else {input.value=evaluatePost()}
     input.value = input.value + "+" + localStorage.getItem("M");
   }
 });
@@ -109,7 +102,6 @@ dibtns.forEach((dibtn) => {
     cursorPos++;
   });
 });
-// console.log(ndibtns);
 
 ndibtns.forEach((ndibtn) => {
   ndibtn.addEventListener("click", ndiHandler);
@@ -124,63 +116,16 @@ backspacebtn.addEventListener("click", (e) => {
     cursorPos--;
   }
 });
-
-/* oneargfunbtns.forEach((oneargfunbtn) => {
-  oneargfunbtn.addEventListener("click", (e) => {
-    const arg = parseFloat(input.value);
-    let val;
-    switch (e.currentTarget.id) {
-      case "abs":
-        val = Math.abs(arg).toString();
-        break;
-      case "xpow2":
-        val = Math.pow(arg, 2).toString();
-        break;
-      case "reciprocal":
-        val = 1 / arg;
-        break;
-      case "fact":
-        val = ((n) => {
-          let ans = 1;
-          while (n > 0) {
-            ans *= n;
-            n--;
-          }
-          return ans;
-        })(arg);
-        break;
-      case "log":
-        val = Math.log10(arg);
-        break;
-      case "ln":
-        val = Math.log(arg);
-        break;
-    }
-
-    input.value = val;
-  });
-}); */
 clrbtn.addEventListener("click", (e) => {
   input.value = "";
   localStorage.clear();
   window.location.reload();
 });
 eqbtn.addEventListener("click", (e) => {
-  // console.log(
-  //   "eq",
-
-  // );
-
   try {
     if (input.value.toString() == "") {
       throw new Error("empty input");
     }
-    /*  let tmpstr = input.value.toString();
-    for (let i = 0; i < funs.length; i++) {
-      tmpstr = tmpstr.replaceAll(funs[i], `#{${i + 1}}`);
-    } */
-    // console.log(tmpstr);
-    // tmpstr.
 
     const infCharArray = input.value
       .toString()
@@ -237,18 +182,6 @@ eqbtn.addEventListener("click", (e) => {
 });
 
 function ndiHandler(e) {
-  /*
-button#xpow2. =
-button#reciprocal. =
-button#abs. =
-button#exp.=
-button#mod.=
-button#sqrt.=
-button#fact.=
-button#xpowy.=
-button#10powx.
-button#log.
-button#ln. */
   if (typeof e == typeof "") {
     switch (e) {
       case "sin":

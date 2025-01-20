@@ -30,7 +30,6 @@ export default class InfixToPostfixUtil {
       }
       prev = ch;
     }
-    // console.log(str);
     str = str.filter((ch, i) => {
       if (ch == "@") {
         str[i + 1] = "-" + str[i + 1];
