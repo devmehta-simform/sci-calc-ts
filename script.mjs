@@ -14,7 +14,7 @@ const clrbtn = document.querySelector("#c");
 const eqbtn = document.querySelector("#eq");
 const backspacebtn = document.querySelector("#backspace");
 const degradbtn = document.querySelector("#deg-rad");
-
+const signbtn = document.querySelector("#sign");
 // memory buttons
 const MS = document.querySelector("#MS");
 const MC = document.querySelector("#MC");
@@ -58,6 +58,12 @@ M_p.addEventListener("click", (e) => {
     // if(input.value==""){input.value=localStorage.getItem("M")}
     // else {input.value=evaluatePost()}
     input.value = input.value + "+" + localStorage.getItem("M");
+  }
+});
+
+signbtn.addEventListener("click", (e) => {
+  if (input.value != "") {
+    input.value = input.value + "*" + "(-1)";
   }
 });
 
