@@ -14,7 +14,52 @@ const clrbtn = document.querySelector("#c");
 const eqbtn = document.querySelector("#eq");
 const backspacebtn = document.querySelector("#backspace");
 const degradbtn = document.querySelector("#deg-rad");
+
+// memory buttons
+const MS = document.querySelector("#MS");
+const MC = document.querySelector("#MC");
+const MR = document.querySelector("#MR");
+const M_p = document.querySelector("#M_p"); // M+
+const M_m = document.querySelector("#M_m"); // M-
+
 let cursorPos = 0;
+
+MS.addEventListener("click", (e) => {
+  localStorage.setItem("M", input.value || 0);
+});
+
+MC.addEventListener("click", (e) => {
+  localStorage.removeItem("M");
+});
+
+MR.addEventListener("click", (e) => {
+  input.value =
+    localStorage.getItem("M") ||
+    (() => {
+      alert("nothing stored in memory");
+      return input.value;
+    })();
+});
+
+M_m.addEventListener("click", (e) => {
+  if (localStorage.getItem("M") == null) {
+    alert("nothing stored in memory");
+  } else {
+    // if(input.value==""){input.value=localStorage.getItem("M")}
+    // else {input.value=evaluatePost()}
+    input.value = input.value + "-" + localStorage.getItem("M");
+  }
+});
+
+M_p.addEventListener("click", (e) => {
+  if (localStorage.getItem("M") == null) {
+    alert("nothing stored in memory");
+  } else {
+    // if(input.value==""){input.value=localStorage.getItem("M")}
+    // else {input.value=evaluatePost()}
+    input.value = input.value + "+" + localStorage.getItem("M");
+  }
+});
 
 degradbtn.addEventListener("click", (e) => {
   CalcUtil.isDeg = !CalcUtil.isDeg;
