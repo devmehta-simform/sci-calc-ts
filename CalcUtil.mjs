@@ -17,42 +17,47 @@ export default class CalcUtil {
   static #mod(op1, op2) {
     return op1 % op2;
   }
+  static #degToRad(op1) {
+    return op1 * (Math.PI / 180);
+  }
   // trigo funs
   static #sin(op1) {
-    return Math.sin(op1);
+    return (!this.isDeg && Math.sin(op1)) || Math.sin(this.#degToRad(op1));
   }
   static #cos(op1) {
-    return Math.cos(op1);
+    return (!this.isDeg && Math.cos(op1)) || Math.cos(this.#degToRad(op1));
   }
   static #tan(op1) {
-    return Math.tan(op1);
+    return (!this.isDeg && Math.tan(op1)) || Math.tan(this.#degToRad(op1));
   }
   static #cot(op1) {
-    return Math.cot(op1);
+    return (!this.isDeg && Math.cot(op1)) || Math.cot(this.#degToRad(op1));
   }
   static #sec(op1) {
-    return Math.sec(op1);
+    return (!this.isDeg && Math.sec(op1)) || Math.sec(this.#degToRad(op1));
   }
   static #cosec(op1) {
-    return Math.cosec(op1);
+    return (!this.isDeg && Math.cosec(op1)) || Math.cosec(this.#degToRad(op1));
   }
   static #asin(op1) {
-    return Math.asin(op1);
+    return (!this.isDeg && Math.asin(op1)) || Math.asin(this.#degToRad(op1));
   }
   static #acos(op1) {
-    return Math.acos(op1);
+    return (!this.isDeg && Math.acos(op1)) || Math.acos(this.#degToRad(op1));
   }
   static #atan(op1) {
-    return Math.atan(op1);
+    return (!this.isDeg && Math.atan(op1)) || Math.atan(this.#degToRad(op1));
   }
   static #acot(op1) {
-    return Math.acot(op1);
+    return (!this.isDeg && Math.acot(op1)) || Math.acot(this.#degToRad(op1));
   }
   static #asec(op1) {
-    return Math.asec(op1);
+    return (!this.isDeg && Math.asec(op1)) || Math.asec(this.#degToRad(op1));
   }
   static #acosec(op1) {
-    return Math.acosec(op1);
+    return (
+      (!this.isDeg && Math.acosec(op1)) || Math.acosec(this.#degToRad(op1))
+    );
   }
   // funs
   static #abs(op1) {
@@ -192,4 +197,5 @@ export default class CalcUtil {
   static get ops() {
     return ["+", "-", "*", "/", "^", "%"];
   }
+  static isDeg = true;
 }

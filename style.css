@@ -45,6 +45,9 @@ li:hover {
 .span-2 {
   grid-column: span 2;
 }
+.span-3 {
+  grid-column: span 3;
+}
 button {
   border: none;
   padding: 6px;
@@ -61,6 +64,7 @@ button:hover {
   overflow-x: auto;
   background-color: aliceblue;
   text-align: right;
+  font-size: 1.5rem;
 }
 #input:focus {
   outline: none;

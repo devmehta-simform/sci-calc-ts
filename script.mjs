@@ -13,7 +13,13 @@ const input = document.querySelector("#input");
 const clrbtn = document.querySelector("#c");
 const eqbtn = document.querySelector("#eq");
 const backspacebtn = document.querySelector("#backspace");
+const degradbtn = document.querySelector("#deg-rad");
 let cursorPos = 0;
+
+degradbtn.addEventListener("click", (e) => {
+  CalcUtil.isDeg = !CalcUtil.isDeg;
+  degradbtn.textContent = (CalcUtil.isDeg && "DEG") || "RAD";
+});
 
 input.addEventListener("click", (e) => {
   cursorPos = input.selectionStart;
