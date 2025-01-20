@@ -29,7 +29,7 @@ ul {
 }
 li {
   padding: 0.5rem;
-  overflow-x: scroll;
+  overflow-x: auto;
   width: 80%;
 }
 li:hover {

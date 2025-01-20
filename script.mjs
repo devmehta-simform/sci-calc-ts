@@ -15,6 +15,7 @@ const eqbtn = document.querySelector("#eq");
 const backspacebtn = document.querySelector("#backspace");
 const degradbtn = document.querySelector("#deg-rad");
 const signbtn = document.querySelector("#sign");
+const secondbtn = document.querySelector("#second");
 // memory buttons
 const MS = document.querySelector("#MS");
 const MC = document.querySelector("#MC");
@@ -58,6 +59,21 @@ M_p.addEventListener("click", (e) => {
     // if(input.value==""){input.value=localStorage.getItem("M")}
     // else {input.value=evaluatePost()}
     input.value = input.value + "+" + localStorage.getItem("M");
+  }
+});
+
+secondbtn.addEventListener("click", (e) => {
+  CalcUtil.isSecond = !CalcUtil.isSecond;
+  if (!CalcUtil.isSecond) {
+    document.getElementById("xpow3").innerHTML = "x<sup>2</sup>";
+    document.getElementById("xpow3").id = "xpow2";
+    secondbtn.style.backgroundColor = "";
+  } else {
+    {
+      secondbtn.style.backgroundColor = "#FF7F7F";
+      document.getElementById("xpow2").innerHTML = "x<sup>3</sup>";
+      document.getElementById("xpow2").id = "xpow3";
+    }
   }
 });
 
@@ -282,6 +298,11 @@ button#ln. */
         break;
       case "xpow2":
         input.value = "(" + input.value + ")^2";
+        // cursorPos += 1;
+
+        break;
+      case "xpow3":
+        input.value = "(" + input.value + ")^3";
         // cursorPos += 1;
 
         break;

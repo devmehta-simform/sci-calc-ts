@@ -210,4 +210,5 @@ export default class CalcUtil {
     return ["+", "-", "*", "/", "^", "%"];
   }
   static isDeg = true;
+  static isSecond = false;
 }
