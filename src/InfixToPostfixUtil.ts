@@ -2,7 +2,7 @@ import CalcUtil from "./CalcUtil";
 const funs = CalcUtil.funs;
 const ops = CalcUtil.ops;
 export default class InfixToPostfixUtil {
-  static #getPrec(ch) {
+  static #getPrec(ch:string):number {
     switch (ch) {
       case "+":
       case "-":
@@ -17,7 +17,7 @@ export default class InfixToPostfixUtil {
     }
   }
 
-  static convertInfToPost(str) {
+  static convertInfToPost(str: string[]) {
     let prev = null;
     /* reference stackoverflow */
     for (let i = 0; i < str.length; i++) {
@@ -37,7 +37,7 @@ export default class InfixToPostfixUtil {
       } else return true;
     });
 
-    const stack = [];
+    const stack:string[] = [];
     const ans = [];
     for (const c of str) {
       if (!Number.isNaN(parseFloat(c))) {
@@ -59,7 +59,7 @@ export default class InfixToPostfixUtil {
       else {
         while (
           stack.length != 0 &&
-          this.#getPrec(stack.at(stack.length - 1)) >= this.#getPrec(c)
+          this.#getPrec(stack.at(stack.length - 1) as string) >= this.#getPrec(c)
         ) {
           ans.push(stack.pop());
         }

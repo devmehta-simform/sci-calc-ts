@@ -112,7 +112,7 @@ dibtns.forEach((dibtn) => {
             input.value.slice(0, cursorPos !== null && cursorPos !== void 0 ? cursorPos : 0) +
                 e.target.textContent +
                 input.value.slice(cursorPos !== null && cursorPos !== void 0 ? cursorPos : 0);
-        cursorPos = cursorPos ? cursorPos + 1 ? 0 :  : ;
+        cursorPos = cursorPos ? cursorPos + 1 : 0;
     });
 });
 ndibtns.forEach((ndibtn) => {
@@ -121,29 +121,29 @@ ndibtns.forEach((ndibtn) => {
 ndiDropdowns.forEach((ndiDropdown) => {
     ndiDropdown.addEventListener("change", () => ndiHandler(ndiDropdown.value));
 });
-backspacebtn.addEventListener("click", (e) => {
-    if (cursorPos > 0) {
+backspacebtn.addEventListener("click", (_) => {
+    if (cursorPos && cursorPos > 0) {
         input.value =
             input.value.slice(0, cursorPos - 1) + input.value.slice(cursorPos);
         cursorPos--;
     }
 });
-clrbtn.addEventListener("click", (e) => {
+clrbtn.addEventListener("click", (_) => {
     input.value = "";
     localStorage.clear();
     window.location.reload();
 });
-eqbtn.addEventListener("click", (e) => {
+eqbtn.addEventListener("click", (_) => {
     try {
         if (input.value.toString() == "") {
             throw new Error("empty input");
         }
         const infCharArray = input.value
             .toString()
-            .replaceAll("π", Math.PI)
-            .replaceAll("rand", () => Math.random() * 100.0)
+            .replaceAll("π", Math.PI.toString())
+            .replaceAll("rand", () => (Math.random() * 100.0).toString())
             .replaceAll("mod", "%")
-            .replaceAll("℮", Math.E)
+            .replaceAll("℮", Math.E.toString())
             .split(/\s*([\(\)+\-*/^])\s*/)
             .filter((c) => c != "");
         console.log(infCharArray);
