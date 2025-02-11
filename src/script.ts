@@ -1,46 +1,46 @@
-import CalcUtil from "./CalcUtil.mjs";
-import InfixToPostfixUtil from "./InfixToPostfixUtil.mjs";
+import CalcUtil from "./CalcUtil";
+import InfixToPostfixUtil from "./InfixToPostfixUtil";
 
 const ops = CalcUtil.ops;
 const funs = CalcUtil.funs;
-const dibtns = document.querySelectorAll(".di"); // which can be directly written to input field no need to process
-const ndibtns = document.querySelectorAll(".ndi"); // which can't be directly written to input field no need to process
-const ndiDropdowns = document.querySelectorAll("select");
-const input = document.querySelector("#input");
-const clrbtn = document.querySelector("#c");
-const eqbtn = document.querySelector("#eq");
-const backspacebtn = document.querySelector("#backspace");
-const degradbtn = document.querySelector("#deg-rad");
-const signbtn = document.querySelector("#sign");
-const febtn = document.querySelector("#f-e");
-const secondbtn = document.querySelector("#second");
-const themebtn = document.querySelector("#theme");
+const dibtns= document.querySelectorAll(".di")as NodeListOf<HTMLButtonElement>; // which can be directly written to input field no need to process
+const ndibtns = document.querySelectorAll(".ndi") as NodeListOf<HTMLButtonElement>; // which can't be directly written to input field no need to process
+const ndiDropdowns = document.querySelectorAll("select") as NodeListOf<HTMLSelectElement>;
+const input = document.querySelector("#input") as HTMLInputElement;
+const clrbtn = document.querySelector("#c") as HTMLButtonElement;
+const eqbtn = document.querySelector("#eq") as HTMLButtonElement;
+const backspacebtn = document.querySelector("#backspace") as HTMLButtonElement;
+const degradbtn = document.querySelector("#deg-rad") as HTMLButtonElement;
+const signbtn = document.querySelector("#sign") as HTMLButtonElement;
+const febtn = document.querySelector("#f-e") as HTMLButtonElement;
+const secondbtn = document.querySelector("#second") as HTMLButtonElement;
+const themebtn = document.querySelector("#theme") as HTMLButtonElement;
 // memory buttons
-const MS = document.querySelector("#MS");
-const MC = document.querySelector("#MC");
-const MR = document.querySelector("#MR");
-const M_p = document.querySelector("#M_p"); // M+
-const M_m = document.querySelector("#M_m"); // M-
+const MS = document.querySelector("#MS") as HTMLButtonElement;
+const MC = document.querySelector("#MC") as HTMLButtonElement;
+const MR = document.querySelector("#MR") as HTMLButtonElement;
+const M_p = document.querySelector("#M_p") as HTMLButtonElement; // M+
+const M_m = document.querySelector("#M_m") as HTMLButtonElement; // M-
 
-let cursorPos = 0;
+let cursorPos:number|null = 0;
 
-themebtn.addEventListener("click", (e) => {
-  if (document.querySelector("body").classList.contains("light")) {
-    document.querySelector("body").classList.replace("light", "dark");
+themebtn.addEventListener("click", (_) => {
+  if ((document.querySelector("body") as HTMLBodyElement).classList.contains("light")) {
+    (document.querySelector("body") as HTMLBodyElement).classList.replace("light", "dark");
   } else {
-    document.querySelector("body").classList.replace("dark", "light");
+    (document.querySelector("body") as HTMLBodyElement).classList.replace("dark", "light");
   }
 });
 
-MS.addEventListener("click", (e) => {
-  localStorage.setItem("M", input.value || 0);
+MS.addEventListener("click", (_) => {
+  localStorage.setItem("M", input?.value || "0");
 });
 
-MC.addEventListener("click", (e) => {
+MC.addEventListener("click", (_) => {
   localStorage.removeItem("M");
 });
 
-MR.addEventListener("click", (e) => {
+MR.addEventListener("click", (_) => {
   input.value =
     localStorage.getItem("M") ||
     (() => {
@@ -49,7 +49,7 @@ MR.addEventListener("click", (e) => {
     })();
 });
 
-M_m.addEventListener("click", (e) => {
+M_m.addEventListener("click", (_) => {
   if (localStorage.getItem("M") == null) {
     alert("nothing stored in memory");
   } else {
@@ -57,7 +57,7 @@ M_m.addEventListener("click", (e) => {
   }
 });
 
-M_p.addEventListener("click", (e) => {
+M_p.addEventListener("click", (_) => {
   if (localStorage.getItem("M") == null) {
     alert("nothing stored in memory");
   } else {
@@ -65,22 +65,22 @@ M_p.addEventListener("click", (e) => {
   }
 });
 
-secondbtn.addEventListener("click", (e) => {
+secondbtn.addEventListener("click", (_) => {
   CalcUtil.isSecond = !CalcUtil.isSecond;
   if (!CalcUtil.isSecond) {
-    document.getElementById("xpow3").innerHTML = "x<sup>2</sup>";
-    document.getElementById("xpow3").id = "xpow2";
+    (document.getElementById("xpow3") as HTMLButtonElement).innerHTML = "x<sup>2</sup>";
+    (document.getElementById("xpow3") as HTMLButtonElement).id = "xpow2";
     secondbtn.style.backgroundColor = "";
   } else {
     {
       secondbtn.style.backgroundColor = "#FF7F7F";
-      document.getElementById("xpow2").innerHTML = "x<sup>3</sup>";
-      document.getElementById("xpow2").id = "xpow3";
+      (document.getElementById("xpow2") as  HTMLButtonElement).innerHTML = "x<sup>3</sup>";
+      (document.getElementById("xpow2") as  HTMLButtonElement).id = "xpow3";
     }
   }
 });
 
-febtn.addEventListener("click", (e) => {
+febtn.addEventListener("click", (_) => {
   try {
     const num = parseFloat(input.value.toString());
     if (!Number.isNaN(num)) {
@@ -100,27 +100,27 @@ febtn.addEventListener("click", (e) => {
   }
 });
 
-signbtn.addEventListener("click", (e) => {
+signbtn.addEventListener("click", (_) => {
   if (input.value != "") {
     input.value = input.value + "*" + "(-1)";
   }
 });
 
-degradbtn.addEventListener("click", (e) => {
+degradbtn.addEventListener("click", (_) => {
   CalcUtil.isDeg = !CalcUtil.isDeg;
   degradbtn.textContent = (CalcUtil.isDeg && "DEG") || "RAD";
 });
 
-input.addEventListener("click", (e) => {
+input.addEventListener("click", (_) => {
   cursorPos = input.selectionStart;
 });
 dibtns.forEach((dibtn) => {
   dibtn.addEventListener("click", (e) => {
     input.value =
-      input.value.slice(0, cursorPos) +
-      e.target.textContent +
-      input.value.slice(cursorPos);
-    cursorPos++;
+      input.value.slice(0, cursorPos??0) +
+      (e.target as HTMLButtonElement).textContent +
+      input.value.slice(cursorPos??0);
+    cursorPos=cursorPos?cursorPos+1:0;
   });
 });
 
@@ -130,19 +130,19 @@ ndibtns.forEach((ndibtn) => {
 ndiDropdowns.forEach((ndiDropdown) => {
   ndiDropdown.addEventListener("change", () => ndiHandler(ndiDropdown.value));
 });
-backspacebtn.addEventListener("click", (e) => {
-  if (cursorPos > 0) {
+backspacebtn.addEventListener("click", (_) => {
+  if (cursorPos && cursorPos > 0) {
     input.value =
       input.value.slice(0, cursorPos - 1) + input.value.slice(cursorPos);
     cursorPos--;
   }
 });
-clrbtn.addEventListener("click", (e) => {
+clrbtn.addEventListener("click", (_) => {
   input.value = "";
   localStorage.clear();
   window.location.reload();
 });
-eqbtn.addEventListener("click", (e) => {
+eqbtn.addEventListener("click", (_) => {
   try {
     if (input.value.toString() == "") {
       throw new Error("empty input");
@@ -150,10 +150,10 @@ eqbtn.addEventListener("click", (e) => {
 
     const infCharArray = input.value
       .toString()
-      .replaceAll("π", Math.PI)
-      .replaceAll("rand", () => Math.random() * 100.0) // passing a function so every rand is replaced by randomly generated number
+      .replaceAll("π", Math.PI.toString())
+      .replaceAll("rand", () => (Math.random() * 100.0).toString()) // passing a function so every rand is replaced by randomly generated number
       .replaceAll("mod", "%")
-      .replaceAll("℮", Math.E)
+      .replaceAll("℮", Math.E.toString())
       .split(/\s*([\(\)+\-*/^])\s*/)
       .filter((c) => c != "");
     console.log(infCharArray);

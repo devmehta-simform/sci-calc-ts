@@ -1,85 +1,87 @@
+type OneArgFun=(op1:number)=>number
+type TwoArgFun=(op1:number, op2:number)=>number
 export default class CalcUtil {
-  static #add(op1, op2) {
+  static #add:TwoArgFun=(op1, op2)=> {
     return op1 + op2;
   }
-  static #sub(op1, op2) {
+  static #sub:TwoArgFun=(op1, op2)=> {
     return op1 - op2;
   }
-  static #mul(op1, op2) {
+  static #mul:TwoArgFun=(op1, op2)=> {
     return op1 * op2;
   }
-  static #div(op1, op2) {
+  static #div:TwoArgFun=(op1, op2)=> {
     return op1 / op2;
   }
-  static #pow(op1, op2) {
+  static #pow:TwoArgFun=(op1, op2)=> {
     return op1 ** op2;
   }
-  static #mod(op1, op2) {
+  static #mod:TwoArgFun=(op1, op2)=> {
     return op1 % op2;
   }
-  static #degToRad(op1) {
+  static #degToRad:OneArgFun=(op1)=> {
     return op1 * (Math.PI / 180);
   }
   // trigo funs
-  static #sin(op1) {
+  static #sin:OneArgFun=(op1)=> {
     return (!this.isDeg && Math.sin(op1)) || Math.sin(this.#degToRad(op1));
   }
-  static #cos(op1) {
+  static #cos:OneArgFun=(op1)=> {
     return (!this.isDeg && Math.cos(op1)) || Math.cos(this.#degToRad(op1));
   }
-  static #tan(op1) {
+  static #tan:OneArgFun=(op1)=> {
     return (!this.isDeg && Math.tan(op1)) || Math.tan(this.#degToRad(op1));
   }
-  static #cot(op1) {
-    return (!this.isDeg && Math.cot(op1)) || Math.cot(this.#degToRad(op1));
+  static #cot:OneArgFun=(op1)=> {
+    return (!this.isDeg && 1/Math.tan(op1)) || 1/Math.tan(this.#degToRad(op1));
   }
-  static #sec(op1) {
-    return (!this.isDeg && Math.sec(op1)) || Math.sec(this.#degToRad(op1));
+  static #sec:OneArgFun=(op1)=> {
+    return (!this.isDeg && 1/Math.cos(op1)) || 1/Math.cos(this.#degToRad(op1));
   }
-  static #cosec(op1) {
-    return (!this.isDeg && Math.cosec(op1)) || Math.cosec(this.#degToRad(op1));
+  static #cosec:OneArgFun=(op1)=> {
+    return (!this.isDeg && 1/Math.sin(op1)) || 1/Math.sin(this.#degToRad(op1));
   }
-  static #asin(op1) {
+  static #asin:OneArgFun=(op1)=> {
     return (!this.isDeg && Math.asin(op1)) || Math.asin(this.#degToRad(op1));
   }
-  static #acos(op1) {
+  static #acos:OneArgFun=(op1)=> {
     return (!this.isDeg && Math.acos(op1)) || Math.acos(this.#degToRad(op1));
   }
-  static #atan(op1) {
+  static #atan:OneArgFun=(op1)=> {
     return (!this.isDeg && Math.atan(op1)) || Math.atan(this.#degToRad(op1));
   }
-  static #acot(op1) {
-    return (!this.isDeg && Math.acot(op1)) || Math.acot(this.#degToRad(op1));
+  static #acot:OneArgFun=(op1)=> {
+    return (!this.isDeg && Math.atan(1/op1)) || Math.atan(this.#degToRad(1/op1));
   }
-  static #asec(op1) {
-    return (!this.isDeg && Math.asec(op1)) || Math.asec(this.#degToRad(op1));
+  static #asec:OneArgFun=(op1)=> {
+    return (!this.isDeg && Math.acos(1/op1)) || Math.acos(this.#degToRad(1/op1));
   }
-  static #acosec(op1) {
+  static #acosec:OneArgFun=(op1)=> {
     return (
-      (!this.isDeg && Math.acosec(op1)) || Math.acosec(this.#degToRad(op1))
+      (!this.isDeg && Math.asin(1/op1)) || Math.asin(this.#degToRad(1/op1))
     );
   }
   // funs
-  static #abs(op1) {
+  static #abs:OneArgFun=(op1)=> {
     return Math.abs(op1);
   }
-  static #ceil(op1) {
+  static #ceil:OneArgFun=(op1)=> {
     return Math.ceil(op1);
   }
-  static #floor(op1) {
+  static #floor:OneArgFun=(op1)=> {
     return Math.floor(op1);
   }
-  static #sqrt(op1) {
+  static #sqrt:OneArgFun=(op1)=> {
     return Math.sqrt(op1);
   }
-  static #log(op1) {
+  static #log:OneArgFun=(op1)=> {
     return Math.log10(op1);
   }
-  static #ln(op1) {
+  static #ln:OneArgFun=(op1)=> {
     return Math.log(op1);
   }
 
-  static #fact(op1) {
+  static #fact:OneArgFun=(op1)=> {
     let ans = 1;
     for (let i = 1; i <= op1; i++) {
       ans *= i;
@@ -87,7 +89,7 @@ export default class CalcUtil {
     return ans;
   }
 
-  static calc(op1, op2, op) {
+  static calc(op1:number, op2:number, op:string):number {
     let tmpans = 0;
     switch (op) {
       case "+":
@@ -112,7 +114,7 @@ export default class CalcUtil {
 
     return tmpans;
   }
-  static fcalc(op1, op) {
+  static fcalc(op1:number, op:string):number {
     let tmpans = 0;
     switch (op) {
       case "sin":
