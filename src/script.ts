@@ -162,14 +162,14 @@ eqbtn.addEventListener("click", (_) => {
 
     console.log(postCharArray);
 
-    input.value = evaluatePost(postCharArray);
+    input.value = evaluatePost(postCharArray as string[]).toString();
     input.selectionStart = 0;
   } catch (error) {
     console.trace(error);
   }
 
-  function evaluatePost(str) {
-    const stack = [];
+  function evaluatePost(str: string[]):number {
+    const stack:(string|number)[] = [];
     for (const c of str) {
       const t = parseFloat(c);
       if (!Number.isNaN(t)) stack.push(t);
@@ -177,33 +177,32 @@ eqbtn.addEventListener("click", (_) => {
         if (stack.length == 0) {
           throw new Error("invalid input");
         }
-        const op2 = stack.pop();
+        const op2 = stack.pop() as number;
         if (stack.length == 0) {
           throw new Error("invalid input");
         }
-        const op1 = stack.pop();
+        const op1 = stack.pop() as number;
 
         stack.push(CalcUtil.calc(op1, op2, c));
       } else if (funs.includes(c)) {
         if (stack.length == 0) {
           throw new Error("invalid input");
         }
-        const op1 = stack.pop();
+        const op1 = stack.pop() as number;
         stack.push(CalcUtil.fcalc(op1, c));
       }
     }
-    const res = stack.pop();
+    const res = stack.pop() as number;
     // maintaining history
-    const n = parseInt(localStorage.getItem("n")) || 0;
-    localStorage.setItem("n", n + 1);
+    const n = parseInt(localStorage.getItem("n")??"0");
+    localStorage.setItem("n", (n + 1).toString());
     localStorage.setItem(`${n + 1} cal`, `${input.value}=${res}`);
     addToHistory(`${input.value}=${res}`);
     return res;
   }
 });
-
-function ndiHandler(e) {
-  if (typeof e == typeof "") {
+function ndiHandler(e:MouseEvent|string) {
+  if (typeof e === "string") {
     switch (e) {
       case "sin":
         input.value = "sin(" + input.value + ")";
@@ -251,9 +250,9 @@ function ndiHandler(e) {
         input.value = input.value + "rand";
         break;
     }
-    cursorPos += e.length + 1;
+    cursorPos = (cursorPos??0)+ e.length + 1;
   } else {
-    switch (e.currentTarget.id) {
+    switch ((e.currentTarget as HTMLButtonElement).id) {
       case "abs":
         input.value = "abs(" + input.value + ")";
         // cursorPos += 4;
@@ -316,8 +315,8 @@ function ndiHandler(e) {
 }
 
 const history = document.getElementById("history");
-function addToHistory(cal) {
+function addToHistory(cal:string) {
   const newele = document.createElement("li");
   newele.textContent = `${cal}`;
-  history.insertBefore(newele, history.firstChild);
+  history?.insertBefore(newele, history.firstChild);
 }

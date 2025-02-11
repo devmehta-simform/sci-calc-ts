@@ -149,13 +149,14 @@ eqbtn.addEventListener("click", (_) => {
         console.log(infCharArray);
         const postCharArray = InfixToPostfixUtil.convertInfToPost(infCharArray);
         console.log(postCharArray);
-        input.value = evaluatePost(postCharArray);
+        input.value = evaluatePost(postCharArray).toString();
         input.selectionStart = 0;
     }
     catch (error) {
         console.trace(error);
     }
     function evaluatePost(str) {
+        var _a;
         const stack = [];
         for (const c of str) {
             const t = parseFloat(c);
@@ -181,15 +182,15 @@ eqbtn.addEventListener("click", (_) => {
             }
         }
         const res = stack.pop();
-        const n = parseInt(localStorage.getItem("n")) || 0;
-        localStorage.setItem("n", n + 1);
+        const n = parseInt((_a = localStorage.getItem("n")) !== null && _a !== void 0 ? _a : "0");
+        localStorage.setItem("n", (n + 1).toString());
         localStorage.setItem(`${n + 1} cal`, `${input.value}=${res}`);
         addToHistory(`${input.value}=${res}`);
         return res;
     }
 });
 function ndiHandler(e) {
-    if (typeof e == typeof "") {
+    if (typeof e === "string") {
         switch (e) {
             case "sin":
                 input.value = "sin(" + input.value + ")";
@@ -237,7 +238,7 @@ function ndiHandler(e) {
                 input.value = input.value + "rand";
                 break;
         }
-        cursorPos += e.length + 1;
+        cursorPos = (cursorPos !== null && cursorPos !== void 0 ? cursorPos : 0) + e.length + 1;
     }
     else {
         switch (e.currentTarget.id) {
@@ -284,5 +285,5 @@ const history = document.getElementById("history");
 function addToHistory(cal) {
     const newele = document.createElement("li");
     newele.textContent = `${cal}`;
-    history.insertBefore(newele, history.firstChild);
+    history === null || history === void 0 ? void 0 : history.insertBefore(newele, history.firstChild);
 }
