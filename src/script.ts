@@ -1,5 +1,5 @@
-import CalcUtil from "./CalcUtil";
-import InfixToPostfixUtil from "./InfixToPostfixUtil";
+import CalcUtil from "./CalcUtil.js";
+import InfixToPostfixUtil from "./InfixToPostfixUtil.js";
 
 const ops = CalcUtil.ops;
 const funs = CalcUtil.funs;
@@ -91,7 +91,7 @@ febtn.addEventListener("click", (_) => {
         .filter((c) => c != "");
       const ans = "(" + tmp[0] + ")*10^(" + tmp[3] + ")";
       input.value = ans;
-      console.log();
+      // console.log();
     } else {
       throw new Error("invalid input");
     }
@@ -117,10 +117,10 @@ input.addEventListener("click", (_) => {
 dibtns.forEach((dibtn) => {
   dibtn.addEventListener("click", (e) => {
     input.value =
-      input.value.slice(0, cursorPos??0) +
+      input.value.slice(0, cursorPos!) +
       (e.target as HTMLButtonElement).textContent +
-      input.value.slice(cursorPos??0);
-    cursorPos=cursorPos?cursorPos+1:0;
+      input.value.slice(cursorPos!);
+    cursorPos=cursorPos!+1;
   });
 });
 
@@ -156,11 +156,11 @@ eqbtn.addEventListener("click", (_) => {
       .replaceAll("℮", Math.E.toString())
       .split(/\s*([\(\)+\-*/^])\s*/)
       .filter((c) => c != "");
-    console.log(infCharArray);
+    // console.log(infCharArray);
 
     const postCharArray = InfixToPostfixUtil.convertInfToPost(infCharArray);
 
-    console.log(postCharArray);
+    // console.log(postCharArray);
 
     input.value = evaluatePost(postCharArray as string[]).toString();
     input.selectionStart = 0;

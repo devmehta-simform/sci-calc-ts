@@ -1,4 +1,4 @@
-import CalcUtil from "./CalcUtil";
+import CalcUtil from "./CalcUtil.js";
 const funs = CalcUtil.funs;
 const ops = CalcUtil.ops;
 export default class InfixToPostfixUtil {

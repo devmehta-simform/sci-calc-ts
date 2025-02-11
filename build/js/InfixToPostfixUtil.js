@@ -4,7 +4,7 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
 var _a, _InfixToPostfixUtil_getPrec;
-import CalcUtil from "./CalcUtil";
+import CalcUtil from "./CalcUtil.js";
 const funs = CalcUtil.funs;
 const ops = CalcUtil.ops;
 class InfixToPostfixUtil {
