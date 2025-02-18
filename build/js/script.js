@@ -118,7 +118,7 @@ ndibtns.forEach((ndibtn) => {
     ndibtn.addEventListener("click", ndiHandler);
 });
 ndiDropdowns.forEach((ndiDropdown) => {
-    ndiDropdown.addEventListener("change", () => ndiHandler(ndiDropdown.value));
+    ndiDropdown.addEventListener("change", () => { ndiHandler(ndiDropdown.value); ndiDropdown.value = "default"; });
 });
 backspacebtn.addEventListener("click", (_) => {
     if (cursorPos && cursorPos > 0) {
