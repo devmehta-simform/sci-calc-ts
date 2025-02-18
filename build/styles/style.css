@@ -43,15 +43,15 @@ body {
   margin: 0;
 }
 .main-grid {
-  margin: 10px;
+  margin: 0;
+  padding: 10px 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  width: 80vw;
-  gap: 3rem;
-  align-items: stretch;
+  width: 100%;
+  grid-template-columns: repeat(auto-fit, 320px);
+  gap: 10vw;
   justify-content: center;
-  padding: 0 20px;
-  grid-auto-rows: 1fr;
+  align-items: center;
+  height: fit-content;
 }
 
 .grid {
@@ -60,9 +60,8 @@ body {
   grid-template-columns: repeat(5, 1fr);
   background-color: whitesmoke;
   padding: 0.5rem;
-  box-sizing: border-box;
-  max-width: 450px;
-  width: fit-content;
+  width: 300px;
+  height: 500px;
 }
 
 .grid-history {
@@ -71,8 +70,7 @@ body {
   font-size: large;
   padding: 0.5rem;
   height: 500px;
-  max-width: 450px;
-  width: 65vw;
+  width: 300px;
 }
 ul {
   /* background-color: #fff2f1; */
