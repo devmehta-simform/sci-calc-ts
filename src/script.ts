@@ -162,8 +162,11 @@ eqbtn.addEventListener("click", (_) => {
 
     // console.log(postCharArray);
 
+    // input.value = evaluatePost(postCharArray as string[]).toString();
+    // input.selectionStart = 0;
     input.value = evaluatePost(postCharArray as string[]).toString();
-    input.selectionStart = 0;
+    input.selectionStart = input.selectionEnd = input.value.toString().length;
+    cursorPos = input.value.toString().length;
   } catch (error) {
     console.trace(error);
   }
