@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sci Calc</title>
+    <link href="./assets/logo.png" rel="icon" type="image/x-icon" />
+    <link rel="stylesheet" href="./styles/style.css" />
+  </head>
+  <body class="light">
+    <script type="module" src="./js/script.js" defer></script>
+    <div class="main-grid">
+      <div class="grid">
+        <input id="input" type="text" placeholder="0" class="span-5" />
+        <button id="theme" value="light">
+          <img
+            height="24px"
+            width="24px"
+            src="./assets/dark-mode-svgrepo-com.svg"
+            alt=""
+          />
+        </button>
+        <button type="button" id="deg-rad">DEG</button>
+        <button type="button" id="f-e">F-E</button>
+        <div class="dummy span-2"></div>
+        <button id="MC">MC</button><button id="MR">MR</button
+        ><button id="M_p">M+</button><button id="M_m">M-</button
+        ><button id="MS">MS</button>
+        <select
+          name="trigonometry"
+          id="trigonometry"
+          title="trigo"
+          class="span-2"
+        >
+          <option value="default" disabled selected>trigonometry</option>
+          <option id="sin" value="sin" class="fun ndi">sin</option>
+          <option id="cos" value="cos" class="fun ndi">cos</option>
+          <option id="tan" value="tan" class="fun ndi">tan</option>
+          <option id="cosec" value="cosec" class="fun ndi">cosec</option>
+          <option id="sec" value="sec" class="fun ndi">sec</option>
+          <option id="cot" value="cot" class="fun ndi">cot</option>
+          <option id="asin" value="asin" class="fun ndi">asin</option>
+          <option id="acos" value="acos" class="fun ndi">acos</option>
+          <option id="atan" value="atan" class="fun ndi">atan</option>
+          <option id="acosec" value="acosec" class="fun ndi">acosec</option>
+          <option id="asec" value="asec" class="fun ndi">asec</option>
+          <option id="acot" value="acot" class="fun ndi">acot</option>
+        </select>
+        <select name="functions" id="functions" class="span-2">
+          <option value="default" disabled selected>functions</option>
+          <option id="rand" value="rand" class="fun ndi">rand</option>
+          <option id="ceil" value="ceil" class="fun ndi">ceil</option>
+          <option id="floor" value="floor" class="fun ndi">floor</option>
+        </select>
+        <div class="dummy"></div>
+        <button type="button" id="second">2<sup>nd</sup></button
+        ><button type="button" class="di" id="pi">&pi;</button
+        ><button type="button" class="di" id="e">&#8494;</button
+        ><button type="button" id="c">C</button
+        ><button type="button" id="backspace">&#9003;</button
+        ><button type="button" class="fun ndi" id="xpow2">x<sup>2</sup></button
+        ><button type="button" class="fun ndi" id="reciprocal">
+          <sup>1</sup>&frasl;<sub>x</sub></button
+        ><button type="button" class="fun ndi" id="abs">|x|</button
+        ><button type="button" class="fun ndi" id="exp">exp</button
+        ><button type="button" class="fun ndi" id="mod">mod</button
+        ><button type="button" class="fun ndi" id="sqrt">&radic;x</button
+        ><button type="button" class="di" id="openp">(</button
+        ><button type="button" class="di" id="closep">)</button
+        ><button type="button" class="fun ndi" id="fact">n!</button
+        ><button type="button" class="fun di" id="div">/</button
+        ><button type="button" class="fun ndi" id="xpowy">x<sup>y</sup></button
+        ><button type="button" class="digit di" id="7">7</button
+        ><button type="button" class="digit di" id="8">8</button
+        ><button type="button" class="digit di" id="9">9</button
+        ><button type="button" class="fun di" id="mul">*</button
+        ><button type="button" class="fun ndi" id="10powx">
+          10<sup>x</sup></button
+        ><button type="button" class="digit di" id="4">4</button
+        ><button type="button" class="digit di" id="5">5</button
+        ><button type="button" class="digit di" id="6">6</button
+        ><button type="button" class="fun di" id="sub">-</button
+        ><button type="button" class="fun ndi" id="log">log</button
+        ><button type="button" class="digit di" id="1">1</button
+        ><button type="button" class="digit di" id="2">2</button
+        ><button type="button" class="digit di" id="3">3</button
+        ><button type="button" class="fun di" id="add">+</button
+        ><button type="button" class="fun ndi" id="ln">ln</button
+        ><button type="button" id="sign"><sup>+</sup>&frasl;<sub>-</sub></button
+        ><button type="button" class="digit di" id="0">0</button
+        ><button type="button" class="di" id="pt">.</button
+        ><button type="button" id="eq">=</button>
+      </div>
+      <div class="grid-history">
+        <h3 style="text-align: center">history...</h3>
+        <ul class="history" id="history"></ul>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,136 @@
+body.light {
+  .grid {
+    background-color: whitesmoke;
+  }
+  .grid-history {
+    background-color: #d4e0ee;
+  }
+  li:hover {
+    background-color: #fff2f1;
+  }
+  .digit {
+    background-color: white;
+  }
+}
+body.dark {
+  * {
+    color: white;
+  }
+  .grid {
+    background-color: #1f1f1e;
+  }
+  button {
+    background-color: #6d6d6d;
+  }
+  select {
+    background-color: #6d6d6d;
+  }
+  .grid-history {
+    background-color: gray;
+  }
+  li:hover {
+    background-color: #ffeebc;
+    color: black;
+  }
+  .digit {
+    background-color: lightsalmon;
+  }
+  #input {
+    background-color: lightslategray;
+  }
+}
+body {
+  margin: 0;
+}
+.main-grid {
+  margin: 0;
+  padding: 10px 0;
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(auto-fit, 320px);
+  gap: 10vw;
+  justify-content: center;
+  align-items: center;
+  height: fit-content;
+}
+
+.grid {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(5, 1fr);
+  background-color: whitesmoke;
+  padding: 0.5rem;
+  width: 300px;
+  height: 500px;
+}
+
+.grid-history {
+  background-color: #d4e0ee;
+  overflow: auto;
+  font-size: large;
+  padding: 0.5rem;
+  height: 500px;
+  width: 300px;
+}
+ul {
+  /* background-color: #fff2f1; */
+  /* line-height: 0.75rem; */
+  display: flex;
+  list-style-type: none;
+  flex-direction: column;
+  /* font-size: 13px; */
+}
+li {
+  padding: 0.5rem;
+  overflow-x: auto;
+  width: 80%;
+}
+li:hover {
+  background-color: #fff2f1;
+  cursor: pointer;
+}
+/* ul li {
+  background-color: bisque;
+} */
+.span-5 {
+  grid-column: span 5;
+}
+.span-2 {
+  grid-column: span 2;
+}
+.span-3 {
+  grid-column: span 3;
+}
+button {
+  border: none;
+  padding: 6px;
+}
+button:hover {
+  cursor: pointer;
+}
+#eq {
+  background-color: skyblue;
+}
+#input {
+  padding: 10px;
+  border: none;
+  overflow-x: auto;
+  background-color: aliceblue;
+  text-align: right;
+  font-size: 1.5rem;
+}
+#input:focus {
+  outline: none;
+  border-bottom: 1px solid gray;
+}
+.digit {
+  background-color: white;
+}
+select {
+  padding: 5px;
+  border: none;
+  cursor: pointer;
+}
+select:focus {
+  outline: none;
+}
