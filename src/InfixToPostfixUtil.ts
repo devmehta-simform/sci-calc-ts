@@ -53,7 +53,10 @@ export default class InfixToPostfixUtil {
         if (stack.length == 0) {
           alert("error invalid input");
           throw new Error("invalid input");
-        } else stack.pop();
+        } else {stack.pop();
+          if(stack.length!=0 && funs.includes(stack.at(stack.length - 1)!))
+          ans.push(stack.pop());
+        }
         continue;
       } else if (funs.includes(c)) stack.push(c);
       else {

@@ -46,8 +46,11 @@ class InfixToPostfixUtil {
                     alert("error invalid input");
                     throw new Error("invalid input");
                 }
-                else
+                else {
                     stack.pop();
+                    if (stack.length != 0 && funs.includes(stack.at(stack.length - 1)))
+                        ans.push(stack.pop());
+                }
                 continue;
             }
             else if (funs.includes(c))
