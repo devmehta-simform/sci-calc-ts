@@ -2,9 +2,9 @@ import CalcUtil from "./CalcUtil.js";
 import InfixToPostfixUtil from "./InfixToPostfixUtil.js";
 const ops = CalcUtil.ops;
 const funs = CalcUtil.funs;
-const digitBtns = document.querySelectorAll(".di");
-const nonDigitBtns = document.querySelectorAll(".ndi");
-const nonDigitDropdowns = document.querySelectorAll("select");
+const directBtns = document.querySelectorAll(".di");
+const nonDirectBtns = document.querySelectorAll(".ndi");
+const nonDirectDropdowns = document.querySelectorAll("select");
 const input = document.querySelector("#input");
 const clearBtn = document.querySelector("#c");
 const equalBtn = document.querySelector("#eq");
@@ -86,6 +86,7 @@ feBtn.addEventListener("click", (_) => {
                 .filter((c) => c != "");
             const ans = "(" + tmp[0] + ")*10^(" + tmp[3] + ")";
             input.value = ans;
+            cursorPos = input.value.toString().length + 1;
         }
         else {
             throw new Error("invalid input");
@@ -107,22 +108,23 @@ degreeRadianBtn.addEventListener("click", (_) => {
 input.addEventListener("click", (_) => {
     cursorPos = input.selectionStart;
 });
-digitBtns.forEach((digitBtn) => {
-    digitBtn.addEventListener("click", (e) => {
+directBtns.forEach((directBtn) => {
+    directBtn.addEventListener("click", (e) => {
         input.value =
             input.value.slice(0, cursorPos) +
                 e.target.textContent +
                 input.value.slice(cursorPos);
         cursorPos = cursorPos + 1;
+        input.focus();
     });
 });
-nonDigitBtns.forEach((nonDigitBtn) => {
-    nonDigitBtn.addEventListener("click", nonDigitHandler);
+nonDirectBtns.forEach((nonDirectBtn) => {
+    nonDirectBtn.addEventListener("click", nonDigitHandler);
 });
-nonDigitDropdowns.forEach((nonDigitDropdown) => {
-    nonDigitDropdown.addEventListener("change", () => {
-        nonDigitHandler(nonDigitDropdown.value);
-        nonDigitDropdown.value = "default";
+nonDirectDropdowns.forEach((nonDirectDropdown) => {
+    nonDirectDropdown.addEventListener("change", () => {
+        nonDigitHandler(nonDirectDropdown.value);
+        nonDirectDropdown.value = "default";
     });
 });
 backspaceBtn.addEventListener("click", (_) => {
@@ -150,13 +152,17 @@ equalBtn.addEventListener("click", (_) => {
             .split(/\s*([\(\)+\-*/^])\s*/)
             .filter((c) => c != "");
         const postCharArray = InfixToPostfixUtil.convertInfToPost(infCharArray);
-        input.value = evaluatePost(postCharArray).toString();
+        input.value = evaluatePost(postCharArray)
+            .toFixed(11)
+            .toString();
         input.selectionStart = input.selectionEnd = input.value.toString().length;
-        cursorPos = input.value.toString().length;
+        cursorPos = input.value.toString().length + 1;
     }
     catch (error) {
         console.trace(error);
     }
+    input.setSelectionRange(cursorPos, cursorPos);
+    input.focus();
     function evaluatePost(str) {
         const stack = [];
         for (const c of str) {
@@ -189,14 +195,14 @@ equalBtn.addEventListener("click", (_) => {
 });
 function nonDigitHandler(e) {
     if (typeof e === "string") {
-        input.value = `${e}(${input.value})`;
-        cursorPos = e.length + 2;
+        input.value = e === "rand" ? `${input.value}${e}` : `${e}(${input.value})`;
+        cursorPos = e === "rand" ? e.length : e.length + 2;
         cursorPos = (cursorPos !== null && cursorPos !== void 0 ? cursorPos : 0) + e.length + 1;
     }
     else {
         switch (e.currentTarget.id) {
             case "abs":
-                cursorPos = input.value.toString().length + 5;
+                cursorPos = input.value.toString().length + 4;
                 input.value = "abs(" + input.value + ")";
                 break;
             case "xpow2":
@@ -208,11 +214,11 @@ function nonDigitHandler(e) {
                 input.value = "(" + input.value + ")^3";
                 break;
             case "reciprocal":
-                cursorPos = input.value.toString().length + 4;
+                cursorPos = input.value.toString().length + 3;
                 input.value = "1/(" + input.value + ")";
                 break;
             case "exp":
-                cursorPos = input.value.toString().length + 4;
+                cursorPos = input.value.toString().length + 3;
                 input.value = "℮^(" + input.value + ")";
                 break;
             case "mod":
@@ -220,11 +226,11 @@ function nonDigitHandler(e) {
                 input.value = "(" + input.value + ")mod()";
                 break;
             case "sqrt":
-                cursorPos = input.value.toString().length + 6;
+                cursorPos = input.value.toString().length + 5;
                 input.value = "sqrt(" + input.value + ")";
                 break;
             case "fact":
-                cursorPos = input.value.toString().length + 6;
+                cursorPos = input.value.toString().length + 5;
                 input.value = "fact(" + input.value + ")";
                 break;
             case "xpowy":
@@ -232,15 +238,15 @@ function nonDigitHandler(e) {
                 input.value = "(" + input.value + ")^()";
                 break;
             case "10powx":
-                cursorPos = input.value.toString().length + 5;
+                cursorPos = input.value.toString().length + 4;
                 input.value = "10^(" + input.value + ")";
                 break;
             case "log":
-                cursorPos = input.value.toString().length + 5;
+                cursorPos = input.value.toString().length + 4;
                 input.value = "log(" + input.value + ")";
                 break;
             case "ln":
-                cursorPos = input.value.toString().length + 4;
+                cursorPos = input.value.toString().length + 3;
                 input.value = "ln(" + input.value + ")";
                 break;
         }

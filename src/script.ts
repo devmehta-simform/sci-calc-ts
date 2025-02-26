@@ -3,13 +3,13 @@ import InfixToPostfixUtil from "./InfixToPostfixUtil.js";
 
 const ops = CalcUtil.ops;
 const funs = CalcUtil.funs;
-const digitBtns = document.querySelectorAll(
+const directBtns = document.querySelectorAll(
 	".di"
 ) as NodeListOf<HTMLButtonElement>; // which can be directly written to input field no need to process
-const nonDigitBtns = document.querySelectorAll(
+const nonDirectBtns = document.querySelectorAll(
 	".ndi"
 ) as NodeListOf<HTMLButtonElement>; // which can't be directly written to input field no need to process
-const nonDigitDropdowns = document.querySelectorAll(
+const nonDirectDropdowns = document.querySelectorAll(
 	"select"
 ) as NodeListOf<HTMLSelectElement>;
 const input = document.querySelector("#input") as HTMLInputElement;
@@ -109,6 +109,7 @@ feBtn.addEventListener("click", (_) => {
 				.filter((c) => c != "");
 			const ans = "(" + tmp[0] + ")*10^(" + tmp[3] + ")";
 			input.value = ans;
+			cursorPos = input.value.toString().length + 1;
 			// console.log();
 		} else {
 			throw new Error("invalid input");
@@ -132,23 +133,25 @@ degreeRadianBtn.addEventListener("click", (_) => {
 input.addEventListener("click", (_) => {
 	cursorPos = input.selectionStart;
 });
-digitBtns.forEach((digitBtn) => {
-	digitBtn.addEventListener("click", (e) => {
+directBtns.forEach((directBtn) => {
+	directBtn.addEventListener("click", (e) => {
+		// input.focus();
 		input.value =
 			input.value.slice(0, cursorPos!) +
 			(e.target as HTMLButtonElement).textContent +
 			input.value.slice(cursorPos!);
 		cursorPos = cursorPos! + 1;
+		input.focus();
 	});
 });
 
-nonDigitBtns.forEach((nonDigitBtn) => {
-	nonDigitBtn.addEventListener("click", nonDigitHandler);
+nonDirectBtns.forEach((nonDirectBtn) => {
+	nonDirectBtn.addEventListener("click", nonDigitHandler);
 });
-nonDigitDropdowns.forEach((nonDigitDropdown) => {
-	nonDigitDropdown.addEventListener("change", () => {
-		nonDigitHandler(nonDigitDropdown.value);
-		nonDigitDropdown.value = "default";
+nonDirectDropdowns.forEach((nonDirectDropdown) => {
+	nonDirectDropdown.addEventListener("change", () => {
+		nonDigitHandler(nonDirectDropdown.value);
+		nonDirectDropdown.value = "default";
 	});
 });
 backspaceBtn.addEventListener("click", (_) => {
@@ -185,13 +188,18 @@ equalBtn.addEventListener("click", (_) => {
 
 		// input.value = evaluatePost(postCharArray as string[]).toString();
 		// input.selectionStart = 0;
-		input.value = evaluatePost(postCharArray as string[]).toString();
+		input.value = evaluatePost(postCharArray as string[])
+			.toFixed(11)
+			.toString();
 		input.selectionStart = input.selectionEnd = input.value.toString().length;
-		cursorPos = input.value.toString().length;
+		cursorPos = input.value.toString().length + 1;
+		// console.log(input.value.toString().length);
 	} catch (error) {
 		console.trace(error);
 	}
-
+	input.setSelectionRange(cursorPos, cursorPos);
+	// input.selectionStart =input.selectionEnd = cursorPos! + 1;
+	input.focus();
 	function evaluatePost(str: string[]): number {
 		const stack: (string | number)[] = [];
 		for (const c of str) {
@@ -227,8 +235,8 @@ equalBtn.addEventListener("click", (_) => {
 });
 function nonDigitHandler(e: MouseEvent | string) {
 	if (typeof e === "string") {
-		input.value = `${e}(${input.value})`;
-		cursorPos = e.length + 2;
+		input.value = e === "rand" ? `${input.value}${e}` : `${e}(${input.value})`;
+		cursorPos = e === "rand" ? e.length : e.length + 2;
 		/* switch (e) {
 			case "sin":
 				input.value = "sin(" + input.value + ")";
@@ -280,7 +288,7 @@ function nonDigitHandler(e: MouseEvent | string) {
 	} else {
 		switch ((e.currentTarget as HTMLButtonElement).id) {
 			case "abs":
-				cursorPos = input.value.toString().length + 5;
+				cursorPos = input.value.toString().length + 4;
 				input.value = "abs(" + input.value + ")";
 				// cursorPos += 4;
 
@@ -298,13 +306,13 @@ function nonDigitHandler(e: MouseEvent | string) {
 
 				break;
 			case "reciprocal":
-				cursorPos = input.value.toString().length + 4;
+				cursorPos = input.value.toString().length + 3;
 				input.value = "1/(" + input.value + ")";
 				// cursorPos += 3;
 
 				break;
 			case "exp":
-				cursorPos = input.value.toString().length + 4;
+				cursorPos = input.value.toString().length + 3;
 				input.value = "℮^(" + input.value + ")";
 				// cursorPos += 3;
 
@@ -316,13 +324,13 @@ function nonDigitHandler(e: MouseEvent | string) {
 
 				break;
 			case "sqrt":
-				cursorPos = input.value.toString().length + 6;
+				cursorPos = input.value.toString().length + 5;
 				input.value = "sqrt(" + input.value + ")";
 				// cursorPos += 6;
 
 				break;
 			case "fact":
-				cursorPos = input.value.toString().length + 6;
+				cursorPos = input.value.toString().length + 5;
 				input.value = "fact(" + input.value + ")";
 
 				break;
@@ -331,17 +339,17 @@ function nonDigitHandler(e: MouseEvent | string) {
 				input.value = "(" + input.value + ")^()";
 				break;
 			case "10powx":
-				cursorPos = input.value.toString().length + 5;
+				cursorPos = input.value.toString().length + 4;
 				input.value = "10^(" + input.value + ")";
 				// cursorPos += 5;
 				break;
 			case "log":
-				cursorPos = input.value.toString().length + 5;
+				cursorPos = input.value.toString().length + 4;
 				input.value = "log(" + input.value + ")";
 				// cursorPos += 4;
 				break;
 			case "ln":
-				cursorPos = input.value.toString().length + 4;
+				cursorPos = input.value.toString().length + 3;
 				input.value = "ln(" + input.value + ")";
 				// cursorPos += 3;
 				break;
