@@ -12,7 +12,7 @@ const nonDirectBtns = document.querySelectorAll(
 const nonDirectDropdowns = document.querySelectorAll(
 	"select"
 ) as NodeListOf<HTMLSelectElement>;
-const input = document.querySelector("#input") as HTMLInputElement;
+const input = document.querySelector("#input") as HTMLTextAreaElement;
 const clearBtn = document.querySelector("#c") as HTMLButtonElement;
 const equalBtn = document.querySelector("#eq") as HTMLButtonElement;
 const backspaceBtn = document.querySelector("#backspace") as HTMLButtonElement;
@@ -118,12 +118,12 @@ input.addEventListener("click", (_) => {
 });
 directBtns.forEach((directBtn) => {
 	directBtn.addEventListener("click", (e) => {
+		cursorPos = input.value.length + 1;
 		input.value =
 			input.value.slice(0, cursorPos!) +
 			(e.target as HTMLButtonElement).textContent +
 			input.value.slice(cursorPos!);
-		cursorPos = cursorPos! + 1;
-		input.focus();
+		input.scrollLeft = input.scrollWidth;
 	});
 });
 

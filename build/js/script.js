@@ -103,12 +103,12 @@ input.addEventListener("click", (_) => {
 });
 directBtns.forEach((directBtn) => {
     directBtn.addEventListener("click", (e) => {
+        cursorPos = input.value.length + 1;
         input.value =
             input.value.slice(0, cursorPos) +
                 e.target.textContent +
                 input.value.slice(cursorPos);
-        cursorPos = cursorPos + 1;
-        input.focus();
+        input.scrollLeft = input.scrollWidth;
     });
 });
 nonDirectBtns.forEach((nonDirectBtn) => {
