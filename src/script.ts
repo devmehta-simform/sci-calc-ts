@@ -144,6 +144,7 @@ backspaceBtn.addEventListener("click", (_) => {
 });
 clearBtn.addEventListener("click", (_) => {
 	input.value = "";
+	cursorPos = 0;
 });
 equalBtn.addEventListener("click", (_) => {
 	try {
@@ -207,9 +208,12 @@ equalBtn.addEventListener("click", (_) => {
 });
 function nonDigitHandler(e: MouseEvent | string) {
 	if (typeof e === "string") {
+		cursorPos =
+			e === "rand"
+				? e.length + input.value.length + 1
+				: e.length + input.value.length + 1;
 		input.value = e === "rand" ? `${input.value}${e}` : `${e}(${input.value})`;
-		cursorPos = e === "rand" ? e.length + input.value.length : e.length + 1;
-		console.log(cursorPos);
+		// console.log(cursorPos);
 	} else {
 		switch ((e.currentTarget as HTMLButtonElement).id) {
 			case "abs":
