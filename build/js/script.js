@@ -92,6 +92,7 @@ feBtn.addEventListener("click", (_) => {
 signBtn.addEventListener("click", (_) => {
     if (input.value != "") {
         input.value = input.value + "*" + "(-1)";
+        cursorPos = input.value.length + 1;
     }
 });
 degreeRadianBtn.addEventListener("click", (_) => {
