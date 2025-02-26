@@ -98,16 +98,19 @@ degreeRadianBtn.addEventListener("click", (_) => {
     CalcUtil.isDeg = !CalcUtil.isDeg;
     degreeRadianBtn.textContent = (CalcUtil.isDeg && "DEG") || "RAD";
 });
+input.addEventListener("input", (_) => {
+    cursorPos = cursorPos + 1;
+});
 input.addEventListener("click", (_) => {
     cursorPos = input.selectionStart;
 });
 directBtns.forEach((directBtn) => {
     directBtn.addEventListener("click", (e) => {
-        cursorPos = input.value.length + 1;
         input.value =
             input.value.slice(0, cursorPos) +
                 e.target.textContent +
                 input.value.slice(cursorPos);
+        cursorPos = cursorPos + 1;
         input.scrollLeft = input.scrollWidth;
     });
 });
@@ -185,10 +188,7 @@ equalBtn.addEventListener("click", (_) => {
 function nonDigitHandler(e) {
     if (typeof e === "string") {
         input.value = e === "rand" ? `${input.value}${e}` : `${e}(${input.value})`;
-        cursorPos =
-            e === "rand"
-                ? e.length + input.value.length
-                : input.value.length + e.length + 2;
+        cursorPos = e === "rand" ? e.length + input.value.length : e.length + 1;
         console.log(cursorPos);
     }
     else {
