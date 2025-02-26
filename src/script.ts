@@ -94,7 +94,6 @@ feBtn.addEventListener("click", (_) => {
 			const ans = "(" + tmp[0] + ")*10^(" + tmp[3] + ")";
 			input.value = ans;
 			cursorPos = input.value.toString().length + 1;
-			// console.log();
 		} else {
 			throw new Error("invalid input");
 		}
@@ -119,7 +118,6 @@ input.addEventListener("click", (_) => {
 });
 directBtns.forEach((directBtn) => {
 	directBtn.addEventListener("click", (e) => {
-		// input.focus();
 		input.value =
 			input.value.slice(0, cursorPos!) +
 			(e.target as HTMLButtonElement).textContent +
@@ -139,16 +137,11 @@ nonDirectDropdowns.forEach((nonDirectDropdown) => {
 	});
 });
 backspaceBtn.addEventListener("click", (_) => {
-	if (cursorPos && cursorPos > 0) {
-		input.value =
-			input.value.slice(0, cursorPos - 1) + input.value.slice(cursorPos);
-		cursorPos--;
-	}
+	input.value = input.value.toString().slice(0, input.value.length - 1);
+	cursorPos = input.value.length;
 });
 clearBtn.addEventListener("click", (_) => {
 	input.value = "";
-	// localStorage.clear();
-	// window.location.reload();
 });
 equalBtn.addEventListener("click", (_) => {
 	try {
@@ -170,20 +163,17 @@ equalBtn.addEventListener("click", (_) => {
 
 		// console.log(postCharArray);
 
-		// input.value = evaluatePost(postCharArray as string[]).toString();
-		// input.selectionStart = 0;
-		input.value = evaluatePost(postCharArray as string[])
-			.toFixed(11)
-			.toString();
+		let val = evaluatePost(postCharArray as string[]).toFixed(11);
+		val = Number.isInteger(val) ? val : parseFloat(val).toString();
+		addToHistory(`${input.value}=${val}`);
+		input.value = val;
 		input.selectionStart = input.selectionEnd = input.value.toString().length;
 		cursorPos = input.value.toString().length + 1;
-		// console.log(input.value.toString().length);
+		input.setSelectionRange(cursorPos, cursorPos);
+		input.focus();
 	} catch (error) {
 		console.trace(error);
 	}
-	input.setSelectionRange(cursorPos, cursorPos);
-	// input.selectionStart =input.selectionEnd = cursorPos! + 1;
-	input.focus();
 	function evaluatePost(str: string[]): number {
 		const stack: (string | number)[] = [];
 		for (const c of str) {
@@ -209,108 +199,53 @@ equalBtn.addEventListener("click", (_) => {
 			}
 		}
 		const res = stack.pop() as number;
-		// maintaining history
-		// const n = parseInt(localStorage.getItem("n") ?? "0");
-		// localStorage.setItem("n", (n + 1).toString());
-		// localStorage.setItem(`${n + 1} cal`, `${input.value}=${res}`);
-		addToHistory(`${input.value}=${res}`);
+
 		return res;
 	}
 });
 function nonDigitHandler(e: MouseEvent | string) {
 	if (typeof e === "string") {
 		input.value = e === "rand" ? `${input.value}${e}` : `${e}(${input.value})`;
-		cursorPos = e === "rand" ? e.length : e.length + 2;
-		/* switch (e) {
-			case "sin":
-				input.value = "sin(" + input.value + ")";
-				break;
-			case "cos":
-				input.value = "cos(" + input.value + ")";
-				break;
-			case "tan":
-				input.value = "tan(" + input.value + ")";
-				break;
-			case "cosec":
-				input.value = "cosec(" + input.value + ")";
-				break;
-			case "sec":
-				input.value = "sec(" + input.value + ")";
-				break;
-			case "cot":
-				input.value = "cot(" + input.value + ")";
-				break;
-			case "asin":
-				input.value = "asin(" + input.value + ")";
-				break;
-			case "acos":
-				input.value = "acos(" + input.value + ")";
-				break;
-			case "atan":
-				input.value = "atan(" + input.value + ")";
-				break;
-			case "acosec":
-				input.value = "acosec(" + input.value + ")";
-				break;
-			case "asec":
-				input.value = "asec(" + input.value + ")";
-				break;
-			case "acot":
-				input.value = "acot(" + input.value + ")";
-				break;
-			case "ceil":
-				input.value = "ceil(" + input.value + ")";
-				break;
-			case "floor":
-				input.value = "floor(" + input.value + ")";
-				break;
-			case "rand":
-				input.value = input.value + "rand";
-				break;
-		} */
-		cursorPos = (cursorPos ?? 0) + e.length + 1;
+		cursorPos =
+			e === "rand"
+				? e.length + input.value.length
+				: input.value.length + e.length + 2;
+		console.log(cursorPos);
 	} else {
 		switch ((e.currentTarget as HTMLButtonElement).id) {
 			case "abs":
 				cursorPos = input.value.toString().length + 4;
 				input.value = "abs(" + input.value + ")";
-				// cursorPos += 4;
 
 				break;
 			case "xpow2":
 				cursorPos = input.value.toString().length + 4;
 				input.value = "(" + input.value + ")^2";
-				// cursorPos += 1;
 
 				break;
 			case "xpow3":
 				cursorPos = input.value.toString().length + 4;
 				input.value = "(" + input.value + ")^3";
-				// cursorPos += 1;
 
 				break;
 			case "reciprocal":
 				cursorPos = input.value.toString().length + 3;
 				input.value = "1/(" + input.value + ")";
-				// cursorPos += 3;
 
 				break;
 			case "exp":
 				cursorPos = input.value.toString().length + 3;
 				input.value = "℮^(" + input.value + ")";
-				// cursorPos += 3;
 
 				break;
 			case "mod":
 				cursorPos = input.value.toString().length + 6;
 				input.value = "(" + input.value + ")mod()";
-				// cursorPos += input.value.toString().length + 2 + 4;
 
 				break;
 			case "sqrt":
 				cursorPos = input.value.toString().length + 5;
 				input.value = "sqrt(" + input.value + ")";
-				// cursorPos += 6;
 
 				break;
 			case "fact":
@@ -325,17 +260,14 @@ function nonDigitHandler(e: MouseEvent | string) {
 			case "10powx":
 				cursorPos = input.value.toString().length + 4;
 				input.value = "10^(" + input.value + ")";
-				// cursorPos += 5;
 				break;
 			case "log":
 				cursorPos = input.value.toString().length + 4;
 				input.value = "log(" + input.value + ")";
-				// cursorPos += 4;
 				break;
 			case "ln":
 				cursorPos = input.value.toString().length + 3;
 				input.value = "ln(" + input.value + ")";
-				// cursorPos += 3;
 				break;
 		}
 	}
@@ -362,6 +294,8 @@ function addToHistory(cal: string) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+	const theme = localStorage.getItem("theme") as "light" | "dark";
+	themeHandler(theme ?? undefined);
 	const persistedHistory = localStorage.getItem("history");
 	if (persistedHistory) {
 		const parsedPersistedHistory = JSON.parse(persistedHistory) as string[];
@@ -371,8 +305,6 @@ document.addEventListener("DOMContentLoaded", () => {
 			history?.appendChild(newele);
 		}
 	}
-	const theme = localStorage.getItem("theme") as "light" | "dark";
-	themeHandler(theme ?? undefined);
 });
 
 function themeHandler(val: "light" | "dark" | Event | undefined) {

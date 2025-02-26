@@ -121,15 +121,11 @@ nonDirectDropdowns.forEach((nonDirectDropdown) => {
     });
 });
 backspaceBtn.addEventListener("click", (_) => {
-    if (cursorPos && cursorPos > 0) {
-        input.value =
-            input.value.slice(0, cursorPos - 1) + input.value.slice(cursorPos);
-        cursorPos--;
-    }
+    input.value = input.value.toString().slice(0, input.value.length - 1);
+    cursorPos = input.value.length;
 });
 clearBtn.addEventListener("click", (_) => {
     input.value = "";
-    window.location.reload();
 });
 equalBtn.addEventListener("click", (_) => {
     try {
@@ -145,17 +141,18 @@ equalBtn.addEventListener("click", (_) => {
             .split(/\s*([\(\)+\-*/^])\s*/)
             .filter((c) => c != "");
         const postCharArray = InfixToPostfixUtil.convertInfToPost(infCharArray);
-        input.value = evaluatePost(postCharArray)
-            .toFixed(11)
-            .toString();
+        let val = evaluatePost(postCharArray).toFixed(11);
+        val = Number.isInteger(val) ? val : parseFloat(val).toString();
+        addToHistory(`${input.value}=${val}`);
+        input.value = val;
         input.selectionStart = input.selectionEnd = input.value.toString().length;
         cursorPos = input.value.toString().length + 1;
+        input.setSelectionRange(cursorPos, cursorPos);
+        input.focus();
     }
     catch (error) {
         console.trace(error);
     }
-    input.setSelectionRange(cursorPos, cursorPos);
-    input.focus();
     function evaluatePost(str) {
         const stack = [];
         for (const c of str) {
@@ -182,15 +179,17 @@ equalBtn.addEventListener("click", (_) => {
             }
         }
         const res = stack.pop();
-        addToHistory(`${input.value}=${res}`);
         return res;
     }
 });
 function nonDigitHandler(e) {
     if (typeof e === "string") {
         input.value = e === "rand" ? `${input.value}${e}` : `${e}(${input.value})`;
-        cursorPos = e === "rand" ? e.length : e.length + 2;
-        cursorPos = (cursorPos !== null && cursorPos !== void 0 ? cursorPos : 0) + e.length + 1;
+        cursorPos =
+            e === "rand"
+                ? e.length + input.value.length
+                : input.value.length + e.length + 2;
+        console.log(cursorPos);
     }
     else {
         switch (e.currentTarget.id) {
@@ -259,6 +258,8 @@ function addToHistory(cal) {
     history === null || history === void 0 ? void 0 : history.insertBefore(newele, history.firstChild);
 }
 document.addEventListener("DOMContentLoaded", () => {
+    const theme = localStorage.getItem("theme");
+    themeHandler(theme !== null && theme !== void 0 ? theme : undefined);
     const persistedHistory = localStorage.getItem("history");
     if (persistedHistory) {
         const parsedPersistedHistory = JSON.parse(persistedHistory);
@@ -268,8 +269,6 @@ document.addEventListener("DOMContentLoaded", () => {
             history === null || history === void 0 ? void 0 : history.appendChild(newele);
         }
     }
-    const theme = localStorage.getItem("theme");
-    themeHandler(theme !== null && theme !== void 0 ? theme : undefined);
 });
 function themeHandler(val) {
     if (val instanceof Event || typeof val === undefined) {
