@@ -161,7 +161,7 @@ backspaceBtn.addEventListener("click", (_) => {
 clearBtn.addEventListener("click", (_) => {
 	input.value = "";
 	// localStorage.clear();
-	// window.location.reload();
+	window.location.reload();
 });
 equalBtn.addEventListener("click", (_) => {
 	try {
@@ -228,6 +228,7 @@ equalBtn.addEventListener("click", (_) => {
 function nonDigitHandler(e: MouseEvent | string) {
 	if (typeof e === "string") {
 		input.value = `${e}(${input.value})`;
+		cursorPos = e.length + 2;
 		/* switch (e) {
 			case "sin":
 				input.value = "sin(" + input.value + ")";
@@ -279,59 +280,68 @@ function nonDigitHandler(e: MouseEvent | string) {
 	} else {
 		switch ((e.currentTarget as HTMLButtonElement).id) {
 			case "abs":
+				cursorPos = input.value.toString().length + 5;
 				input.value = "abs(" + input.value + ")";
 				// cursorPos += 4;
 
 				break;
 			case "xpow2":
+				cursorPos = input.value.toString().length + 4;
 				input.value = "(" + input.value + ")^2";
 				// cursorPos += 1;
 
 				break;
 			case "xpow3":
+				cursorPos = input.value.toString().length + 4;
 				input.value = "(" + input.value + ")^3";
 				// cursorPos += 1;
 
 				break;
 			case "reciprocal":
+				cursorPos = input.value.toString().length + 4;
 				input.value = "1/(" + input.value + ")";
 				// cursorPos += 3;
 
 				break;
 			case "exp":
+				cursorPos = input.value.toString().length + 4;
 				input.value = "℮^(" + input.value + ")";
 				// cursorPos += 3;
 
 				break;
 			case "mod":
+				cursorPos = input.value.toString().length + 6;
 				input.value = "(" + input.value + ")mod()";
 				// cursorPos += input.value.toString().length + 2 + 4;
 
 				break;
 			case "sqrt":
+				cursorPos = input.value.toString().length + 6;
 				input.value = "sqrt(" + input.value + ")";
 				// cursorPos += 6;
 
 				break;
 			case "fact":
+				cursorPos = input.value.toString().length + 6;
 				input.value = "fact(" + input.value + ")";
-				// cursorPos += 1;
 
 				break;
 			case "xpowy":
+				cursorPos = input.value.toString().length + 4;
 				input.value = "(" + input.value + ")^()";
-				// cursorPos += input.value.toString().length + 2 + 2;
-
 				break;
 			case "10powx":
+				cursorPos = input.value.toString().length + 5;
 				input.value = "10^(" + input.value + ")";
 				// cursorPos += 5;
 				break;
 			case "log":
+				cursorPos = input.value.toString().length + 5;
 				input.value = "log(" + input.value + ")";
 				// cursorPos += 4;
 				break;
 			case "ln":
+				cursorPos = input.value.toString().length + 4;
 				input.value = "ln(" + input.value + ")";
 				// cursorPos += 3;
 				break;
@@ -345,7 +355,7 @@ function addToHistory(cal: string) {
 	let parsedPersistedHistory: string[] = [];
 	if (persistedHistory) {
 		parsedPersistedHistory = JSON.parse(persistedHistory) as string[];
-		console.log(parsedPersistedHistory);
+		// console.log(parsedPersistedHistory);
 		parsedPersistedHistory.unshift(cal);
 	}
 	localStorage.setItem(
