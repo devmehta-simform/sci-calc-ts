@@ -2,16 +2,16 @@ import CalcUtil from "./CalcUtil.js";
 import InfixToPostfixUtil from "./InfixToPostfixUtil.js";
 const ops = CalcUtil.ops;
 const funs = CalcUtil.funs;
-const dibtns = document.querySelectorAll(".di");
-const ndibtns = document.querySelectorAll(".ndi");
-const ndiDropdowns = document.querySelectorAll("select");
+const digitBtns = document.querySelectorAll(".di");
+const nonDigitBtns = document.querySelectorAll(".ndi");
+const nonDigitDropdowns = document.querySelectorAll("select");
 const input = document.querySelector("#input");
-const clrbtn = document.querySelector("#c");
-const eqbtn = document.querySelector("#eq");
-const backspacebtn = document.querySelector("#backspace");
-const degradbtn = document.querySelector("#deg-rad");
-const signbtn = document.querySelector("#sign");
-const febtn = document.querySelector("#f-e");
+const clearBtn = document.querySelector("#c");
+const equalBtn = document.querySelector("#eq");
+const backspaceBtn = document.querySelector("#backspace");
+const degreeRadianBtn = document.querySelector("#deg-rad");
+const signBtn = document.querySelector("#sign");
+const feBtn = document.querySelector("#f-e");
 const secondbtn = document.querySelector("#second");
 const themebtn = document.querySelector("#theme");
 const MS = document.querySelector("#MS");
@@ -61,19 +61,21 @@ M_p.addEventListener("click", (_) => {
 secondbtn.addEventListener("click", (_) => {
     CalcUtil.isSecond = !CalcUtil.isSecond;
     if (!CalcUtil.isSecond) {
-        document.getElementById("xpow3").innerHTML = "x<sup>2</sup>";
+        document.getElementById("xpow3").innerHTML =
+            "x<sup>2</sup>";
         document.getElementById("xpow3").id = "xpow2";
         secondbtn.style.backgroundColor = "";
     }
     else {
         {
             secondbtn.style.backgroundColor = "#FF7F7F";
-            document.getElementById("xpow2").innerHTML = "x<sup>3</sup>";
+            document.getElementById("xpow2").innerHTML =
+                "x<sup>3</sup>";
             document.getElementById("xpow2").id = "xpow3";
         }
     }
 });
-febtn.addEventListener("click", (_) => {
+feBtn.addEventListener("click", (_) => {
     try {
         const num = parseFloat(input.value.toString());
         if (!Number.isNaN(num)) {
@@ -93,20 +95,20 @@ febtn.addEventListener("click", (_) => {
         alert(error.toString());
     }
 });
-signbtn.addEventListener("click", (_) => {
+signBtn.addEventListener("click", (_) => {
     if (input.value != "") {
         input.value = input.value + "*" + "(-1)";
     }
 });
-degradbtn.addEventListener("click", (_) => {
+degreeRadianBtn.addEventListener("click", (_) => {
     CalcUtil.isDeg = !CalcUtil.isDeg;
-    degradbtn.textContent = (CalcUtil.isDeg && "DEG") || "RAD";
+    degreeRadianBtn.textContent = (CalcUtil.isDeg && "DEG") || "RAD";
 });
 input.addEventListener("click", (_) => {
     cursorPos = input.selectionStart;
 });
-dibtns.forEach((dibtn) => {
-    dibtn.addEventListener("click", (e) => {
+digitBtns.forEach((digitBtn) => {
+    digitBtn.addEventListener("click", (e) => {
         input.value =
             input.value.slice(0, cursorPos) +
                 e.target.textContent +
@@ -114,23 +116,26 @@ dibtns.forEach((dibtn) => {
         cursorPos = cursorPos + 1;
     });
 });
-ndibtns.forEach((ndibtn) => {
-    ndibtn.addEventListener("click", ndiHandler);
+nonDigitBtns.forEach((nonDigitBtn) => {
+    nonDigitBtn.addEventListener("click", nonDigitHandler);
 });
-ndiDropdowns.forEach((ndiDropdown) => {
-    ndiDropdown.addEventListener("change", () => { ndiHandler(ndiDropdown.value); ndiDropdown.value = "default"; });
+nonDigitDropdowns.forEach((nonDigitDropdown) => {
+    nonDigitDropdown.addEventListener("change", () => {
+        nonDigitHandler(nonDigitDropdown.value);
+        nonDigitDropdown.value = "default";
+    });
 });
-backspacebtn.addEventListener("click", (_) => {
+backspaceBtn.addEventListener("click", (_) => {
     if (cursorPos && cursorPos > 0) {
         input.value =
             input.value.slice(0, cursorPos - 1) + input.value.slice(cursorPos);
         cursorPos--;
     }
 });
-clrbtn.addEventListener("click", (_) => {
+clearBtn.addEventListener("click", (_) => {
     input.value = "";
 });
-eqbtn.addEventListener("click", (_) => {
+equalBtn.addEventListener("click", (_) => {
     try {
         if (input.value.toString() == "") {
             throw new Error("empty input");
@@ -181,55 +186,9 @@ eqbtn.addEventListener("click", (_) => {
         return res;
     }
 });
-function ndiHandler(e) {
+function nonDigitHandler(e) {
     if (typeof e === "string") {
-        switch (e) {
-            case "sin":
-                input.value = "sin(" + input.value + ")";
-                break;
-            case "cos":
-                input.value = "cos(" + input.value + ")";
-                break;
-            case "tan":
-                input.value = "tan(" + input.value + ")";
-                break;
-            case "cosec":
-                input.value = "cosec(" + input.value + ")";
-                break;
-            case "sec":
-                input.value = "sec(" + input.value + ")";
-                break;
-            case "cot":
-                input.value = "cot(" + input.value + ")";
-                break;
-            case "asin":
-                input.value = "asin(" + input.value + ")";
-                break;
-            case "acos":
-                input.value = "acos(" + input.value + ")";
-                break;
-            case "atan":
-                input.value = "atan(" + input.value + ")";
-                break;
-            case "acosec":
-                input.value = "acosec(" + input.value + ")";
-                break;
-            case "asec":
-                input.value = "asec(" + input.value + ")";
-                break;
-            case "acot":
-                input.value = "acot(" + input.value + ")";
-                break;
-            case "ceil":
-                input.value = "ceil(" + input.value + ")";
-                break;
-            case "floor":
-                input.value = "floor(" + input.value + ")";
-                break;
-            case "rand":
-                input.value = input.value + "rand";
-                break;
-        }
+        input.value = `${e}(${input.value})`;
         cursorPos = (cursorPos !== null && cursorPos !== void 0 ? cursorPos : 0) + e.length + 1;
     }
     else {

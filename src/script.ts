@@ -3,16 +3,22 @@ import InfixToPostfixUtil from "./InfixToPostfixUtil.js";
 
 const ops = CalcUtil.ops;
 const funs = CalcUtil.funs;
-const dibtns= document.querySelectorAll(".di")as NodeListOf<HTMLButtonElement>; // which can be directly written to input field no need to process
-const ndibtns = document.querySelectorAll(".ndi") as NodeListOf<HTMLButtonElement>; // which can't be directly written to input field no need to process
-const ndiDropdowns = document.querySelectorAll("select") as NodeListOf<HTMLSelectElement>;
+const digitBtns = document.querySelectorAll(
+	".di"
+) as NodeListOf<HTMLButtonElement>; // which can be directly written to input field no need to process
+const nonDigitBtns = document.querySelectorAll(
+	".ndi"
+) as NodeListOf<HTMLButtonElement>; // which can't be directly written to input field no need to process
+const nonDigitDropdowns = document.querySelectorAll(
+	"select"
+) as NodeListOf<HTMLSelectElement>;
 const input = document.querySelector("#input") as HTMLInputElement;
-const clrbtn = document.querySelector("#c") as HTMLButtonElement;
-const eqbtn = document.querySelector("#eq") as HTMLButtonElement;
-const backspacebtn = document.querySelector("#backspace") as HTMLButtonElement;
-const degradbtn = document.querySelector("#deg-rad") as HTMLButtonElement;
-const signbtn = document.querySelector("#sign") as HTMLButtonElement;
-const febtn = document.querySelector("#f-e") as HTMLButtonElement;
+const clearBtn = document.querySelector("#c") as HTMLButtonElement;
+const equalBtn = document.querySelector("#eq") as HTMLButtonElement;
+const backspaceBtn = document.querySelector("#backspace") as HTMLButtonElement;
+const degreeRadianBtn = document.querySelector("#deg-rad") as HTMLButtonElement;
+const signBtn = document.querySelector("#sign") as HTMLButtonElement;
+const feBtn = document.querySelector("#f-e") as HTMLButtonElement;
 const secondbtn = document.querySelector("#second") as HTMLButtonElement;
 const themebtn = document.querySelector("#theme") as HTMLButtonElement;
 // memory buttons
@@ -22,127 +28,142 @@ const MR = document.querySelector("#MR") as HTMLButtonElement;
 const M_p = document.querySelector("#M_p") as HTMLButtonElement; // M+
 const M_m = document.querySelector("#M_m") as HTMLButtonElement; // M-
 
-let cursorPos:number|null = 0;
+let cursorPos: number | null = 0;
 
 themebtn.addEventListener("click", (_) => {
-  if ((document.querySelector("body") as HTMLBodyElement).classList.contains("light")) {
-    (document.querySelector("body") as HTMLBodyElement).classList.replace("light", "dark");
-  } else {
-    (document.querySelector("body") as HTMLBodyElement).classList.replace("dark", "light");
-  }
+	if (
+		(document.querySelector("body") as HTMLBodyElement).classList.contains(
+			"light"
+		)
+	) {
+		(document.querySelector("body") as HTMLBodyElement).classList.replace(
+			"light",
+			"dark"
+		);
+	} else {
+		(document.querySelector("body") as HTMLBodyElement).classList.replace(
+			"dark",
+			"light"
+		);
+	}
 });
 
 MS.addEventListener("click", (_) => {
-  localStorage.setItem("M", input?.value || "0");
+	localStorage.setItem("M", input?.value || "0");
 });
 
 MC.addEventListener("click", (_) => {
-  localStorage.removeItem("M");
+	localStorage.removeItem("M");
 });
 
 MR.addEventListener("click", (_) => {
-  input.value =
-    localStorage.getItem("M") ||
-    (() => {
-      alert("nothing stored in memory");
-      return input.value;
-    })();
+	input.value =
+		localStorage.getItem("M") ||
+		(() => {
+			alert("nothing stored in memory");
+			return input.value;
+		})();
 });
 
 M_m.addEventListener("click", (_) => {
-  if (localStorage.getItem("M") == null) {
-    alert("nothing stored in memory");
-  } else {
-    input.value = input.value + "-" + localStorage.getItem("M");
-  }
+	if (localStorage.getItem("M") == null) {
+		alert("nothing stored in memory");
+	} else {
+		input.value = input.value + "-" + localStorage.getItem("M");
+	}
 });
 
 M_p.addEventListener("click", (_) => {
-  if (localStorage.getItem("M") == null) {
-    alert("nothing stored in memory");
-  } else {
-    input.value = input.value + "+" + localStorage.getItem("M");
-  }
+	if (localStorage.getItem("M") == null) {
+		alert("nothing stored in memory");
+	} else {
+		input.value = input.value + "+" + localStorage.getItem("M");
+	}
 });
 
 secondbtn.addEventListener("click", (_) => {
-  CalcUtil.isSecond = !CalcUtil.isSecond;
-  if (!CalcUtil.isSecond) {
-    (document.getElementById("xpow3") as HTMLButtonElement).innerHTML = "x<sup>2</sup>";
-    (document.getElementById("xpow3") as HTMLButtonElement).id = "xpow2";
-    secondbtn.style.backgroundColor = "";
-  } else {
-    {
-      secondbtn.style.backgroundColor = "#FF7F7F";
-      (document.getElementById("xpow2") as  HTMLButtonElement).innerHTML = "x<sup>3</sup>";
-      (document.getElementById("xpow2") as  HTMLButtonElement).id = "xpow3";
-    }
-  }
+	CalcUtil.isSecond = !CalcUtil.isSecond;
+	if (!CalcUtil.isSecond) {
+		(document.getElementById("xpow3") as HTMLButtonElement).innerHTML =
+			"x<sup>2</sup>";
+		(document.getElementById("xpow3") as HTMLButtonElement).id = "xpow2";
+		secondbtn.style.backgroundColor = "";
+	} else {
+		{
+			secondbtn.style.backgroundColor = "#FF7F7F";
+			(document.getElementById("xpow2") as HTMLButtonElement).innerHTML =
+				"x<sup>3</sup>";
+			(document.getElementById("xpow2") as HTMLButtonElement).id = "xpow3";
+		}
+	}
 });
 
-febtn.addEventListener("click", (_) => {
-  try {
-    const num = parseFloat(input.value.toString());
-    if (!Number.isNaN(num)) {
-      const tmp = num
-        .toExponential()
-        .toString()
-        .split(/\s*([e+])\s*/)
-        .filter((c) => c != "");
-      const ans = "(" + tmp[0] + ")*10^(" + tmp[3] + ")";
-      input.value = ans;
-      // console.log();
-    } else {
-      throw new Error("invalid input");
-    }
-  } catch (error) {
-    alert(error.toString());
-  }
+feBtn.addEventListener("click", (_) => {
+	try {
+		const num = parseFloat(input.value.toString());
+		if (!Number.isNaN(num)) {
+			const tmp = num
+				.toExponential()
+				.toString()
+				.split(/\s*([e+])\s*/)
+				.filter((c) => c != "");
+			const ans = "(" + tmp[0] + ")*10^(" + tmp[3] + ")";
+			input.value = ans;
+			// console.log();
+		} else {
+			throw new Error("invalid input");
+		}
+	} catch (error) {
+		alert(error.toString());
+	}
 });
 
-signbtn.addEventListener("click", (_) => {
-  if (input.value != "") {
-    input.value = input.value + "*" + "(-1)";
-  }
+signBtn.addEventListener("click", (_) => {
+	if (input.value != "") {
+		input.value = input.value + "*" + "(-1)";
+	}
 });
 
-degradbtn.addEventListener("click", (_) => {
-  CalcUtil.isDeg = !CalcUtil.isDeg;
-  degradbtn.textContent = (CalcUtil.isDeg && "DEG") || "RAD";
+degreeRadianBtn.addEventListener("click", (_) => {
+	CalcUtil.isDeg = !CalcUtil.isDeg;
+	degreeRadianBtn.textContent = (CalcUtil.isDeg && "DEG") || "RAD";
 });
 
 input.addEventListener("click", (_) => {
-  cursorPos = input.selectionStart;
+	cursorPos = input.selectionStart;
 });
-dibtns.forEach((dibtn) => {
-  dibtn.addEventListener("click", (e) => {
-    input.value =
-      input.value.slice(0, cursorPos!) +
-      (e.target as HTMLButtonElement).textContent +
-      input.value.slice(cursorPos!);
-    cursorPos=cursorPos!+1;
-  });
+digitBtns.forEach((digitBtn) => {
+	digitBtn.addEventListener("click", (e) => {
+		input.value =
+			input.value.slice(0, cursorPos!) +
+			(e.target as HTMLButtonElement).textContent +
+			input.value.slice(cursorPos!);
+		cursorPos = cursorPos! + 1;
+	});
 });
 
-ndibtns.forEach((ndibtn) => {
-  ndibtn.addEventListener("click", ndiHandler);
+nonDigitBtns.forEach((nonDigitBtn) => {
+	nonDigitBtn.addEventListener("click", nonDigitHandler);
 });
-ndiDropdowns.forEach((ndiDropdown) => {
-  ndiDropdown.addEventListener("change", () => {ndiHandler(ndiDropdown.value);ndiDropdown.value="default"});
+nonDigitDropdowns.forEach((nonDigitDropdown) => {
+	nonDigitDropdown.addEventListener("change", () => {
+		nonDigitHandler(nonDigitDropdown.value);
+		nonDigitDropdown.value = "default";
+	});
 });
-backspacebtn.addEventListener("click", (_) => {
-  if (cursorPos && cursorPos > 0) {
-    input.value =
-      input.value.slice(0, cursorPos - 1) + input.value.slice(cursorPos);
-    cursorPos--;
-  }
+backspaceBtn.addEventListener("click", (_) => {
+	if (cursorPos && cursorPos > 0) {
+		input.value =
+			input.value.slice(0, cursorPos - 1) + input.value.slice(cursorPos);
+		cursorPos--;
+	}
 });
-clrbtn.addEventListener("click", (_) => {
+clearBtn.addEventListener("click", (_) => {
 	input.value = "";
 	// localStorage.clear();
 	// window.location.reload();
 });
-eqbtn.addEventListener("click", (_) => {
+equalBtn.addEventListener("click", (_) => {
 	try {
 		if (input.value.toString() == "") {
 			throw new Error("empty input");
@@ -204,9 +225,10 @@ eqbtn.addEventListener("click", (_) => {
 		return res;
 	}
 });
-function ndiHandler(e: MouseEvent | string) {
+function nonDigitHandler(e: MouseEvent | string) {
 	if (typeof e === "string") {
-		switch (e) {
+		input.value = `${e}(${input.value})`;
+		/* switch (e) {
 			case "sin":
 				input.value = "sin(" + input.value + ")";
 				break;
@@ -252,7 +274,7 @@ function ndiHandler(e: MouseEvent | string) {
 			case "rand":
 				input.value = input.value + "rand";
 				break;
-		}
+		} */
 		cursorPos = (cursorPos ?? 0) + e.length + 1;
 	} else {
 		switch ((e.currentTarget as HTMLButtonElement).id) {
