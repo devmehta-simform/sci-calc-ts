@@ -148,7 +148,7 @@ backspaceBtn.addEventListener("click", (_) => {
 clearBtn.addEventListener("click", (_) => {
 	input.value = "";
 	// localStorage.clear();
-	window.location.reload();
+	// window.location.reload();
 });
 equalBtn.addEventListener("click", (_) => {
 	try {
