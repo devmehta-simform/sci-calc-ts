@@ -90,7 +90,7 @@ body.dark {
 		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 	}
 
-	li:hover {
+	li {
 		background-color: #a1f7c6;
 		color: #2a2a2a;
 		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
@@ -157,14 +157,13 @@ ul {
 	display: flex;
 	list-style-type: none;
 	flex-direction: column;
+	gap: 10px;
 	/* font-size: 13px; */
 }
 li {
 	padding: 0.5rem;
 	overflow-x: auto;
 	width: 80%;
-}
-li:hover {
 	background-color: #fff2f1;
 	cursor: pointer;
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
