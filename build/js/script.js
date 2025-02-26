@@ -129,8 +129,6 @@ backspacebtn.addEventListener("click", (_) => {
 });
 clrbtn.addEventListener("click", (_) => {
     input.value = "";
-    localStorage.clear();
-    window.location.reload();
 });
 eqbtn.addEventListener("click", (_) => {
     try {
@@ -154,7 +152,6 @@ eqbtn.addEventListener("click", (_) => {
         console.trace(error);
     }
     function evaluatePost(str) {
-        var _a;
         const stack = [];
         for (const c of str) {
             const t = parseFloat(c);
@@ -180,9 +177,6 @@ eqbtn.addEventListener("click", (_) => {
             }
         }
         const res = stack.pop();
-        const n = parseInt((_a = localStorage.getItem("n")) !== null && _a !== void 0 ? _a : "0");
-        localStorage.setItem("n", (n + 1).toString());
-        localStorage.setItem(`${n + 1} cal`, `${input.value}=${res}`);
         addToHistory(`${input.value}=${res}`);
         return res;
     }
@@ -281,7 +275,26 @@ function ndiHandler(e) {
 }
 const history = document.getElementById("history");
 function addToHistory(cal) {
+    const persistedHistory = localStorage.getItem("history");
+    let parsedPersistedHistory = [];
+    if (persistedHistory) {
+        parsedPersistedHistory = JSON.parse(persistedHistory);
+        console.log(parsedPersistedHistory);
+        parsedPersistedHistory.unshift(cal);
+    }
+    localStorage.setItem("history", JSON.stringify(parsedPersistedHistory.length === 0 ? [cal] : parsedPersistedHistory));
     const newele = document.createElement("li");
     newele.textContent = `${cal}`;
     history === null || history === void 0 ? void 0 : history.insertBefore(newele, history.firstChild);
 }
+document.addEventListener("DOMContentLoaded", () => {
+    const persistedHistory = localStorage.getItem("history");
+    if (persistedHistory) {
+        const parsedPersistedHistory = JSON.parse(persistedHistory);
+        for (const item of parsedPersistedHistory) {
+            const newele = document.createElement("li");
+            newele.textContent = item;
+            history === null || history === void 0 ? void 0 : history.appendChild(newele);
+        }
+    }
+});

@@ -138,188 +138,213 @@ backspacebtn.addEventListener("click", (_) => {
   }
 });
 clrbtn.addEventListener("click", (_) => {
-  input.value = "";
-  localStorage.clear();
-  window.location.reload();
+	input.value = "";
+	// localStorage.clear();
+	// window.location.reload();
 });
 eqbtn.addEventListener("click", (_) => {
-  try {
-    if (input.value.toString() == "") {
-      throw new Error("empty input");
-    }
+	try {
+		if (input.value.toString() == "") {
+			throw new Error("empty input");
+		}
 
-    const infCharArray = input.value
-      .toString()
-      .replaceAll("π", Math.PI.toString())
-      .replaceAll("rand", () => (Math.random() * 100.0).toString()) // passing a function so every rand is replaced by randomly generated number
-      .replaceAll("mod", "%")
-      .replaceAll("℮", Math.E.toString())
-      .split(/\s*([\(\)+\-*/^])\s*/)
-      .filter((c) => c != "");
-    // console.log(infCharArray);
+		const infCharArray = input.value
+			.toString()
+			.replaceAll("π", Math.PI.toString())
+			.replaceAll("rand", () => (Math.random() * 100.0).toString()) // passing a function so every rand is replaced by randomly generated number
+			.replaceAll("mod", "%")
+			.replaceAll("℮", Math.E.toString())
+			.split(/\s*([\(\)+\-*/^])\s*/)
+			.filter((c) => c != "");
+		// console.log(infCharArray);
 
-    const postCharArray = InfixToPostfixUtil.convertInfToPost(infCharArray);
+		const postCharArray = InfixToPostfixUtil.convertInfToPost(infCharArray);
 
-    // console.log(postCharArray);
+		// console.log(postCharArray);
 
-    // input.value = evaluatePost(postCharArray as string[]).toString();
-    // input.selectionStart = 0;
-    input.value = evaluatePost(postCharArray as string[]).toString();
-    input.selectionStart = input.selectionEnd = input.value.toString().length;
-    cursorPos = input.value.toString().length;
-  } catch (error) {
-    console.trace(error);
-  }
+		// input.value = evaluatePost(postCharArray as string[]).toString();
+		// input.selectionStart = 0;
+		input.value = evaluatePost(postCharArray as string[]).toString();
+		input.selectionStart = input.selectionEnd = input.value.toString().length;
+		cursorPos = input.value.toString().length;
+	} catch (error) {
+		console.trace(error);
+	}
 
-  function evaluatePost(str: string[]):number {
-    const stack:(string|number)[] = [];
-    for (const c of str) {
-      const t = parseFloat(c);
-      if (!Number.isNaN(t)) stack.push(t);
-      else if (ops.includes(c)) {
-        if (stack.length == 0) {
-          throw new Error("invalid input");
-        }
-        const op2 = stack.pop() as number;
-        if (stack.length == 0) {
-          throw new Error("invalid input");
-        }
-        const op1 = stack.pop() as number;
+	function evaluatePost(str: string[]): number {
+		const stack: (string | number)[] = [];
+		for (const c of str) {
+			const t = parseFloat(c);
+			if (!Number.isNaN(t)) stack.push(t);
+			else if (ops.includes(c)) {
+				if (stack.length == 0) {
+					throw new Error("invalid input");
+				}
+				const op2 = stack.pop() as number;
+				if (stack.length == 0) {
+					throw new Error("invalid input");
+				}
+				const op1 = stack.pop() as number;
 
-        stack.push(CalcUtil.calc(op1, op2, c));
-      } else if (funs.includes(c)) {
-        if (stack.length == 0) {
-          throw new Error("invalid input");
-        }
-        const op1 = stack.pop() as number;
-        stack.push(CalcUtil.fcalc(op1, c));
-      }
-    }
-    const res = stack.pop() as number;
-    // maintaining history
-    const n = parseInt(localStorage.getItem("n")??"0");
-    localStorage.setItem("n", (n + 1).toString());
-    localStorage.setItem(`${n + 1} cal`, `${input.value}=${res}`);
-    addToHistory(`${input.value}=${res}`);
-    return res;
-  }
+				stack.push(CalcUtil.calc(op1, op2, c));
+			} else if (funs.includes(c)) {
+				if (stack.length == 0) {
+					throw new Error("invalid input");
+				}
+				const op1 = stack.pop() as number;
+				stack.push(CalcUtil.fcalc(op1, c));
+			}
+		}
+		const res = stack.pop() as number;
+		// maintaining history
+		// const n = parseInt(localStorage.getItem("n") ?? "0");
+		// localStorage.setItem("n", (n + 1).toString());
+		// localStorage.setItem(`${n + 1} cal`, `${input.value}=${res}`);
+		addToHistory(`${input.value}=${res}`);
+		return res;
+	}
 });
-function ndiHandler(e:MouseEvent|string) {
-  if (typeof e === "string") {
-    switch (e) {
-      case "sin":
-        input.value = "sin(" + input.value + ")";
-        break;
-      case "cos":
-        input.value = "cos(" + input.value + ")";
-        break;
-      case "tan":
-        input.value = "tan(" + input.value + ")";
-        break;
-      case "cosec":
-        input.value = "cosec(" + input.value + ")";
-        break;
-      case "sec":
-        input.value = "sec(" + input.value + ")";
-        break;
-      case "cot":
-        input.value = "cot(" + input.value + ")";
-        break;
-      case "asin":
-        input.value = "asin(" + input.value + ")";
-        break;
-      case "acos":
-        input.value = "acos(" + input.value + ")";
-        break;
-      case "atan":
-        input.value = "atan(" + input.value + ")";
-        break;
-      case "acosec":
-        input.value = "acosec(" + input.value + ")";
-        break;
-      case "asec":
-        input.value = "asec(" + input.value + ")";
-        break;
-      case "acot":
-        input.value = "acot(" + input.value + ")";
-        break;
-      case "ceil":
-        input.value = "ceil(" + input.value + ")";
-        break;
-      case "floor":
-        input.value = "floor(" + input.value + ")";
-        break;
-      case "rand":
-        input.value = input.value + "rand";
-        break;
-    }
-    cursorPos = (cursorPos??0)+ e.length + 1;
-  } else {
-    switch ((e.currentTarget as HTMLButtonElement).id) {
-      case "abs":
-        input.value = "abs(" + input.value + ")";
-        // cursorPos += 4;
+function ndiHandler(e: MouseEvent | string) {
+	if (typeof e === "string") {
+		switch (e) {
+			case "sin":
+				input.value = "sin(" + input.value + ")";
+				break;
+			case "cos":
+				input.value = "cos(" + input.value + ")";
+				break;
+			case "tan":
+				input.value = "tan(" + input.value + ")";
+				break;
+			case "cosec":
+				input.value = "cosec(" + input.value + ")";
+				break;
+			case "sec":
+				input.value = "sec(" + input.value + ")";
+				break;
+			case "cot":
+				input.value = "cot(" + input.value + ")";
+				break;
+			case "asin":
+				input.value = "asin(" + input.value + ")";
+				break;
+			case "acos":
+				input.value = "acos(" + input.value + ")";
+				break;
+			case "atan":
+				input.value = "atan(" + input.value + ")";
+				break;
+			case "acosec":
+				input.value = "acosec(" + input.value + ")";
+				break;
+			case "asec":
+				input.value = "asec(" + input.value + ")";
+				break;
+			case "acot":
+				input.value = "acot(" + input.value + ")";
+				break;
+			case "ceil":
+				input.value = "ceil(" + input.value + ")";
+				break;
+			case "floor":
+				input.value = "floor(" + input.value + ")";
+				break;
+			case "rand":
+				input.value = input.value + "rand";
+				break;
+		}
+		cursorPos = (cursorPos ?? 0) + e.length + 1;
+	} else {
+		switch ((e.currentTarget as HTMLButtonElement).id) {
+			case "abs":
+				input.value = "abs(" + input.value + ")";
+				// cursorPos += 4;
 
-        break;
-      case "xpow2":
-        input.value = "(" + input.value + ")^2";
-        // cursorPos += 1;
+				break;
+			case "xpow2":
+				input.value = "(" + input.value + ")^2";
+				// cursorPos += 1;
 
-        break;
-      case "xpow3":
-        input.value = "(" + input.value + ")^3";
-        // cursorPos += 1;
+				break;
+			case "xpow3":
+				input.value = "(" + input.value + ")^3";
+				// cursorPos += 1;
 
-        break;
-      case "reciprocal":
-        input.value = "1/(" + input.value + ")";
-        // cursorPos += 3;
+				break;
+			case "reciprocal":
+				input.value = "1/(" + input.value + ")";
+				// cursorPos += 3;
 
-        break;
-      case "exp":
-        input.value = "℮^(" + input.value + ")";
-        // cursorPos += 3;
+				break;
+			case "exp":
+				input.value = "℮^(" + input.value + ")";
+				// cursorPos += 3;
 
-        break;
-      case "mod":
-        input.value = "(" + input.value + ")mod()";
-        // cursorPos += input.value.toString().length + 2 + 4;
+				break;
+			case "mod":
+				input.value = "(" + input.value + ")mod()";
+				// cursorPos += input.value.toString().length + 2 + 4;
 
-        break;
-      case "sqrt":
-        input.value = "sqrt(" + input.value + ")";
-        // cursorPos += 6;
+				break;
+			case "sqrt":
+				input.value = "sqrt(" + input.value + ")";
+				// cursorPos += 6;
 
-        break;
-      case "fact":
-        input.value = "fact(" + input.value + ")";
-        // cursorPos += 1;
+				break;
+			case "fact":
+				input.value = "fact(" + input.value + ")";
+				// cursorPos += 1;
 
-        break;
-      case "xpowy":
-        input.value = "(" + input.value + ")^()";
-        // cursorPos += input.value.toString().length + 2 + 2;
+				break;
+			case "xpowy":
+				input.value = "(" + input.value + ")^()";
+				// cursorPos += input.value.toString().length + 2 + 2;
 
-        break;
-      case "10powx":
-        input.value = "10^(" + input.value + ")";
-        // cursorPos += 5;
-        break;
-      case "log":
-        input.value = "log(" + input.value + ")";
-        // cursorPos += 4;
-        break;
-      case "ln":
-        input.value = "ln(" + input.value + ")";
-        // cursorPos += 3;
-        break;
-    }
-  }
+				break;
+			case "10powx":
+				input.value = "10^(" + input.value + ")";
+				// cursorPos += 5;
+				break;
+			case "log":
+				input.value = "log(" + input.value + ")";
+				// cursorPos += 4;
+				break;
+			case "ln":
+				input.value = "ln(" + input.value + ")";
+				// cursorPos += 3;
+				break;
+		}
+	}
 }
 
 const history = document.getElementById("history");
-function addToHistory(cal:string) {
-  const newele = document.createElement("li");
-  newele.textContent = `${cal}`;
-  history?.insertBefore(newele, history.firstChild);
+function addToHistory(cal: string) {
+	const persistedHistory = localStorage.getItem("history");
+	let parsedPersistedHistory: string[] = [];
+	if (persistedHistory) {
+		parsedPersistedHistory = JSON.parse(persistedHistory) as string[];
+		console.log(parsedPersistedHistory);
+		parsedPersistedHistory.unshift(cal);
+	}
+	localStorage.setItem(
+		"history",
+		JSON.stringify(
+			parsedPersistedHistory.length === 0 ? [cal] : parsedPersistedHistory
+		)
+	);
+	const newele = document.createElement("li");
+	newele.textContent = `${cal}`;
+	history?.insertBefore(newele, history.firstChild);
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+	const persistedHistory = localStorage.getItem("history");
+	if (persistedHistory) {
+		const parsedPersistedHistory = JSON.parse(persistedHistory) as string[];
+		for (const item of parsedPersistedHistory) {
+			const newele = document.createElement("li");
+			newele.textContent = item;
+			history?.appendChild(newele);
+		}
+	}
+});
