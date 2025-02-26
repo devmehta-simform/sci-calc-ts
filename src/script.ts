@@ -30,23 +30,7 @@ const M_m = document.querySelector("#M_m") as HTMLButtonElement; // M-
 
 let cursorPos: number | null = 0;
 
-themebtn.addEventListener("click", (_) => {
-	if (
-		(document.querySelector("body") as HTMLBodyElement).classList.contains(
-			"light"
-		)
-	) {
-		(document.querySelector("body") as HTMLBodyElement).classList.replace(
-			"light",
-			"dark"
-		);
-	} else {
-		(document.querySelector("body") as HTMLBodyElement).classList.replace(
-			"dark",
-			"light"
-		);
-	}
-});
+themebtn.addEventListener("click", themeHandler);
 
 MS.addEventListener("click", (_) => {
 	localStorage.setItem("M", input?.value || "0");
@@ -387,4 +371,50 @@ document.addEventListener("DOMContentLoaded", () => {
 			history?.appendChild(newele);
 		}
 	}
+	const theme = localStorage.getItem("theme") as "light" | "dark";
+	themeHandler(theme ?? undefined);
 });
+
+function themeHandler(val: "light" | "dark" | Event | undefined) {
+	if (val instanceof Event || typeof val === undefined) {
+		if (
+			(document.querySelector("body") as HTMLBodyElement).classList.contains(
+				"light"
+			)
+		) {
+			(document.querySelector("body") as HTMLBodyElement).classList.replace(
+				"light",
+				"dark"
+			);
+			localStorage.setItem("theme", "dark");
+		} else {
+			(document.querySelector("body") as HTMLBodyElement).classList.replace(
+				"dark",
+				"light"
+			);
+			localStorage.setItem("theme", "light");
+		}
+	} else {
+		if (val === "dark") {
+			if (
+				(document.querySelector("body") as HTMLBodyElement).classList.contains(
+					"light"
+				)
+			) {
+				(document.querySelector("body") as HTMLBodyElement).classList.replace(
+					"light",
+					"dark"
+				);
+			} else if (
+				(document.querySelector("body") as HTMLBodyElement).classList.contains(
+					"dark"
+				)
+			) {
+				(document.querySelector("body") as HTMLBodyElement).classList.replace(
+					"dark",
+					"light"
+				);
+			}
+		}
+	}
+}

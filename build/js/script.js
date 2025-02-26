@@ -20,14 +20,7 @@ const MR = document.querySelector("#MR");
 const M_p = document.querySelector("#M_p");
 const M_m = document.querySelector("#M_m");
 let cursorPos = 0;
-themebtn.addEventListener("click", (_) => {
-    if (document.querySelector("body").classList.contains("light")) {
-        document.querySelector("body").classList.replace("light", "dark");
-    }
-    else {
-        document.querySelector("body").classList.replace("dark", "light");
-    }
-});
+themebtn.addEventListener("click", themeHandler);
 MS.addEventListener("click", (_) => {
     localStorage.setItem("M", (input === null || input === void 0 ? void 0 : input.value) || "0");
 });
@@ -275,4 +268,28 @@ document.addEventListener("DOMContentLoaded", () => {
             history === null || history === void 0 ? void 0 : history.appendChild(newele);
         }
     }
+    const theme = localStorage.getItem("theme");
+    themeHandler(theme !== null && theme !== void 0 ? theme : undefined);
 });
+function themeHandler(val) {
+    if (val instanceof Event || typeof val === undefined) {
+        if (document.querySelector("body").classList.contains("light")) {
+            document.querySelector("body").classList.replace("light", "dark");
+            localStorage.setItem("theme", "dark");
+        }
+        else {
+            document.querySelector("body").classList.replace("dark", "light");
+            localStorage.setItem("theme", "light");
+        }
+    }
+    else {
+        if (val === "dark") {
+            if (document.querySelector("body").classList.contains("light")) {
+                document.querySelector("body").classList.replace("light", "dark");
+            }
+            else if (document.querySelector("body").classList.contains("dark")) {
+                document.querySelector("body").classList.replace("dark", "light");
+            }
+        }
+    }
+}
