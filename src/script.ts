@@ -119,6 +119,18 @@ input.addEventListener("input", (_) => {
 input.addEventListener("click", (_) => {
 	cursorPos = input.selectionStart;
 });
+input.addEventListener("keyup", (e) => {
+	switch (e.key) {
+		case "ArrowLeft":
+			cursorPos &&= cursorPos - 1;
+			break;
+		case "ArrowRight":
+			cursorPos &&= cursorPos + 1;
+			break;
+		default:
+			break;
+	}
+});
 directBtns.forEach((directBtn) => {
 	directBtn.addEventListener("click", (e) => {
 		input.value =
@@ -140,8 +152,17 @@ nonDirectDropdowns.forEach((nonDirectDropdown) => {
 	});
 });
 backspaceBtn.addEventListener("click", (_) => {
-	input.value = input.value.toString().slice(0, input.value.length - 1);
-	cursorPos = input.value.length;
+	// console.log(cursorPos);
+	if (cursorPos === 0) {
+		cursorPos = input.value.length;
+	}
+	if (cursorPos && cursorPos > input.value.length) {
+		cursorPos = input.value.length;
+	}
+	input.value =
+		input.value.toString().slice(0, cursorPos! - 1) +
+		input.value.toString().slice(cursorPos!);
+	cursorPos = cursorPos! - 1;
 });
 clearBtn.addEventListener("click", (_) => {
 	input.value = "";
